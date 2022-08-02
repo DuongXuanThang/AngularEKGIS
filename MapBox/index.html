@@ -16,6 +16,8 @@
   crossorigin="anonymous"
 />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" integrity="sha512-1sCRPdkRXhBV2PBLUdRb4tMg1w2YPf37qatUFeS7zlBy7jJI8Lf4VHwWfZZfpXtYSLy85pkm9GaYVYMfw5BC1A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://files.ekgis.vn/sdks/v1.0.0/ekmap-platform-geocoder.min.js"></script> 
+<link href="https://files.ekgis.vn/sdks/v1.0.0/ekmap-platform-geocoder.css" rel='stylesheet'/>
 <style>
 	body { margin: 0; padding: 0; }
 	#map { position: absolute; top: 0; bottom: 0; width: 100%; background:#ddd;}
@@ -27,37 +29,16 @@
 width: 100%;
 height: calc(100vh - 15px);
 }
-.selectStyle {
 
-
-
-background-color: #fff;
-
-}
 </style>
-<div class="wrapper">
+
     <div class="left-panel">
       <div class="card">
         <div class="card-body">
             <h5 class="card-title">Chức năng <i style="float:right; " class="fa-solid fa-arrow-left-long" onclick="closeLeftPanel()"></i></h5>
-          <div class="accordion" id="accordionExample">
-              <div class="accordion-item">
-                <h2 class="accordion-header" id="headingOne">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Danh sách địa điểm
-                      </button>
-                </h2>
-                <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                  <div class="accordion-body">
-                      <ul class="list-group list-group-flush" id="lstUnv">
-                      </ul>
-                  </div>
-                </div>
-              </div>
-           
-            </div>
+        
             
-                        <div class="selectStyle">
+                       
                             <input
                             type="radio"
                             class="radio-style"
@@ -114,7 +95,7 @@ background-color: #fff;
                             onchange="changeStyleMap('zooningLayer')"
                             />
                             <label for="night">ZNM</label>
-                            </div>
+                          
               
         
         </div>
@@ -122,7 +103,7 @@ background-color: #fff;
     </div>
     <div class="btn-open-leftpanel" onclick="openLeftPanel()">
         <i class="fas fa-arrow-right"></i>
-    </div>
+    </div> 
 <div id="divMapId" class="map">
 
 </div>
@@ -133,6 +114,10 @@ container: 'divMapId',
 center: [105, 17],
 zoom: 4
 });
+var geocoder = new ekmapplf.control.GeoCoder({
+apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
+});
+map.addControl(geocoder, 'top-left');
 var zooningLayer = new ekmapplf.layer.Zoning({
 'apiKey': 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
 });
