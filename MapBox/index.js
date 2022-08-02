@@ -118,3 +118,16 @@ function openLeftPanel() {
     }
     document.querySelector('.wrapper .btn-open-leftpanel').style.display = 'none';
 }
+function closeRightPanel() {
+    var elm = document.querySelector('.wrapper .right-panel');
+    if (elm) {
+        elm.style.display = 'none';
+    }
+}
+
+function openRightPanel() {
+    var elm = document.querySelector('.wrapper .right-panel');
+    if (elm) {
+        elm.style.display = 'block';
+    }
+}
