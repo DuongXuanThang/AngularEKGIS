@@ -70,3 +70,32 @@
   </body>
   <script src="index.js"></script>
 </html>
+'OSM:Bright',
+'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
+);
+var mapOSMGray = new ekmapplf.VectorBaseMap('OSM:Gray', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
+var mapOSMDark = new ekmapplf.VectorBaseMap('OSM:Dark', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
+var mapOSMNight = new ekmapplf.VectorBaseMap('OSM:Night', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
+mapOSMBrigth.addTo(map);
+ 
+function changeStyleMap(styleMap) {
+switch (styleMap) {
+case 'bright':
+mapOSMBrigth.addTo(map);
+break;
+case 'gray':
+mapOSMGray.addTo(map);
+break;
+case 'dark':
+mapOSMDark.addTo(map);
+break;
+case 'night':
+mapOSMNight.addTo(map);
+break;
+}
+}
+</script>
+ <script src="index.js"></script>
+ 
+</body>
+</html>

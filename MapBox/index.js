@@ -1,18 +1,19 @@
-mapboxgl.accessToken =
-  "pk.eyJ1IjoiZHVvbmd4dWFudGhhbmciLCJhIjoiY2w2YmQ5d3l5MDM3NTNjcnhnNThtaWozMCJ9.ck0G07sAAVKf3cL4uTicMQ";
-const map = new mapboxgl.Map({
-  container: "map", // container ID
-  style: "mapbox://styles/mapbox/streets-v11", // style URL
-  center: [106.8986697, 18.3811674], // starting position [lng, lat]
-  zoom: 6.09, // starting zoom
-  projection: "globe", // display the map as a 3D globe
-  hash: "map", // thêm tham số url=> chia sẻ mức độ zoom cho người dùng
-});
-// console.log(map);
-map.on("style.load", () => {
-  map.setFog({}); // Set the default atmosphere style
-});
+// mapboxgl.accessToken =
+//   "pk.eyJ1IjoiZHVvbmd4dWFudGhhbmciLCJhIjoiY2w2YmQ5d3l5MDM3NTNjcnhnNThtaWozMCJ9.ck0G07sAAVKf3cL4uTicMQ";
+// const map = new mapboxgl.Map({
+//   container: "map", // container ID
+//   style: "mapbox://styles/mapbox/streets-v11", // style URL
+//   center: [106.8986697, 18.3811674], // starting position [lng, lat]
+//   zoom: 6.09, // starting zoom
+//   projection: "globe", // display the map as a 3D globe
+//   hash: "map", // thêm tham số url=> chia sẻ mức độ zoom cho người dùng
+// });
+// // console.log(map);
+// map.on("style.load", () => {
+//   map.setFog({}); // Set the default atmosphere style
+// });
 
+   
 dataGeoJson = {
   type: "FeatureCollection",
   features: [
