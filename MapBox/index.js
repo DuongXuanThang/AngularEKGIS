@@ -2,11 +2,11 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoiZHVvbmd4dWFudGhhbmciLCJhIjoiY2w2YmQ5d3l5MDM3NTNjcnhnNThtaWozMCJ9.ck0G07sAAVKf3cL4uTicMQ";
 const map = new mapboxgl.Map({
   container: "map", // container ID
-  style: "mapbox://styles/mapbox/light-v10", // style URL
+  style: "mapbox://styles/mapbox/streets-v11", // style URL
   center: [106.8986697, 18.3811674], // starting position [lng, lat]
   zoom: 6.09, // starting zoom
   projection: "globe", // display the map as a 3D globe
-  hash : 'map' // thêm tham số url=> chia sẻ mức độ zoom cho người dùng
+  hash: "map", // thêm tham số url=> chia sẻ mức độ zoom cho người dùng
 });
 // console.log(map);
 map.on("style.load", () => {
@@ -50,42 +50,56 @@ dataGeoJson = {
 };
 map.on("load", (e) => {
   map.addSource("capital", {
-    type: "geojson",  
-    data: dataGeoJson,})
-    map.addLayer({ // style cho vị trí
-        'id': "capital-location",
-        'type': 'circle',
-        'source': 'capital',
-        'paint': {
-            'circle-radius': 10,
-            'circle-color': 'red'
-        }
-    })
-    map.addLayer({ // style cho text 
-        'id': "capital-name",
-        'type': 'symbol', // cho text
-        'source': 'capital',
-        'layout': {
-            'text-field': '{name}',
-            'text-size': 12,
-            'text-font': ['Open Sans Semibold', 'Arial Unicode MS Bold'],
-            'text-offset': [0, 1.2], // text cách dọc 1.2 pixel
-        },
-        'paint': {
-            'text-color': '#000fff'
-        },
-    })
+    type: "geojson",
+    data: dataGeoJson,
   });
-  listener = {};
-  listener ['evtClick'] = evtClick.bind(this);
- function evtClick(e){
-console.log(e);
- }
+  map.addLayer({
+    // style cho vị trí
+    id: "capital-location",
+    type: "circle",
+    source: "capital",
+    paint: {
+      "circle-radius": 10,
+      "circle-color": "red",
+    },
+  });
+  map.addLayer({
+    // style cho text
+    id: "capital-name",
+    type: "symbol", // cho text
+    source: "capital",
+    layout: {
+      "text-field": "{name}",
+      "text-size": 12,
+      "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+      "text-offset": [0, 1.2], // text cách dọc 1.2 pixel
+    },
+    paint: {
+      "text-color": "#000fff",
+    },
+  });
+});
+listener = {};
+listener["evtClick"] = evtClick.bind(this);
+function evtClick(e) {
+  console.log(e);
+}
 
- //clear event
- map.on('click', listener['evtClick']);
-    function offEvent(){
-        map.off('click', listener['evtClick']);
+//clear event
+map.on("click", listener["evtClick"]);
+function offEvent() {
+  map.off("click", listener["evtClick"]);
+}
+function getDataToHtml(data, elmParentId, fieldVisible) {
+  var content = "";
+  var elm = document.getElementById(elmParentId);
+  if (elm) {
+    for (const feature of data.features) {
+      content +=
+        '<li class="list-group-item">' +
+        feature.properties[fieldVisible] +
+        "</li>";
     }
-
- 
+    elm.innerHTML = content;
+  }
+}
