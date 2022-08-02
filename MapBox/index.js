@@ -91,15 +91,30 @@ function offEvent() {
   map.off("click", listener["evtClick"]);
 }
 function getDataToHtml(data, elmParentId, fieldVisible) {
-  var content = "";
-  var elm = document.getElementById(elmParentId);
-  if (elm) {
-    for (const feature of data.features) {
-      content +=
-        '<li class="list-group-item">' +
-        feature.properties[fieldVisible] +
-        "</li>";
+    var content = "";
+    var elm = document.getElementById(elmParentId);
+    if (elm) {
+        for (const feature of data.features) {
+            content += '<li class="list-group-item">' + feature.properties[fieldVisible] + '</li>'
+        }
+        elm.innerHTML = content;
     }
-    elm.innerHTML = content;
-  }
+}
+
+
+getDataToHtml(dataGeoJson, 'lstUnv', 'name');
+function closeLeftPanel() {
+    var elm = document.querySelector('.wrapper .left-panel');
+    if (elm) {
+        elm.style.left = '-100%';
+    }
+    document.querySelector('.wrapper .btn-open-leftpanel').style.display = 'flex';
+}
+
+function openLeftPanel() {
+    var elm = document.querySelector('.wrapper .left-panel');
+    if (elm) {
+        elm.style.left = '1rem';
+    }
+    document.querySelector('.wrapper .btn-open-leftpanel').style.display = 'none';
 }

@@ -24,7 +24,7 @@
       <div class="left-panel">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">Chức năng <i style="float:right; " class="fa-solid fa-arrow-left-long"></i></h5>
+            <h5 class="card-title">Chức năng <i style="float:right; " class="fa-solid fa-arrow-left-long" onclick="closeLeftPanel()"></i></h5>
             <div class="accordion" id="accordionExample">
                 <div class="accordion-item">
                   <h2 class="accordion-header" id="headingOne">
@@ -34,9 +34,8 @@
                   </h2>
                   <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <ul class="list-group">
-                           
-                          </ul>
+                        <ul class="list-group list-group-flush" id="lstUnv">
+                        </ul>
                     </div>
                   </div>
                 </div>
@@ -46,6 +45,9 @@
           </div>
         </div>
       </div>
+      <div class="btn-open-leftpanel" onclick="openLeftPanel()">
+        <i class="fas fa-arrow-right"></i>
+    </div>
       <div id="map"></div>
 
       <div class="right-panel">
