@@ -78,7 +78,16 @@ map.on("load", (e) => {
       "text-color": "#000fff",
     },
   });
-  const marker = new mapboxgl.Marker().setLngLat([105.8194541, 21.0227788]).addTo(map);
+//   const marker = new mapboxgl.Marker({draggable:true}).setLngLat([105.8194541, 21.0227788]).addTo(map);
+  const marker = new mapboxgl.Marker({draggable:true})
+.setLngLat([105.8194541, 21.0227788])
+.setPopup(new mapboxgl.Popup().setHTML("<h1>Hello World!</h1>"))
+.addTo(map);
+marker.on('dragend',()=>{
+    alert('dragend');
+})
+ 
+console.log(marker.getPopup());
 });
 listener = {};
 listener["evtClick"] = evtClick.bind(this);
