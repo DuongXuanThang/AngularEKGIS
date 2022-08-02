@@ -18,8 +18,8 @@ cấu trúc cơ bản của GeoJSON:
       "type": "Feature",
       "properties": {},
       "geometry": {
-        "type": "Point"(điểm), "StringLine"(đoạn thẳng 2 đường đánh dấu),"Polygon"()
-        "coordinates": [
+        "type": "Point"(điểm), "StringLine"(đoạn thẳng 2 đường đánh dấu điểm đầu điểm cuối),"Polygon"()
+        "coordinates": [ // tọa độ
           94.21875,
           61.938950426660604
         ]
@@ -28,9 +28,13 @@ cấu trúc cơ bản của GeoJSON:
   ]
 }
 
-2.Hash Mapbox: cung cấp điểm zoom trên url 
+2.Hash Mapbox: cung cấp điểm zoom, xoay trên url 
 
 3.Event Mapbox: ON ,ONCE , OFF
 ON: thêm sự kiện
 ONCE: thêm sự kiện nhưng chỉ lắng nghe 1 lần duy nhất
 OFF: Tắt sự kiện đã được thêm
+
+4.Truy vấn dữ liệu trên Mapbox: 
+filter(giới hạn các query)
+, layer(danh sách các layer), validate

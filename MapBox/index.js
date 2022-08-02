@@ -78,11 +78,14 @@ map.on("load", (e) => {
       "text-color": "#000fff",
     },
   });
+  const marker = new mapboxgl.Marker().setLngLat([105.8194541, 21.0227788]).addTo(map);
 });
 listener = {};
 listener["evtClick"] = evtClick.bind(this);
 function evtClick(e) {
   console.log(e);
+  var features = map.queryRenderedFeatures(e.point);
+  console.log(features);
 }
 
 //clear event
