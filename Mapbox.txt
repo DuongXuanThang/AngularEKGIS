@@ -1,0 +1,36 @@
+Ưng dụng của map: quản lí các cửa hàng buôn bán, thị trường bán lẻ, quản lí tài nguyên cơ sở vật chất, giao thông y tế
+Lợi ích: tiết kiệm thời gian chi phí, truy cập thời gian, phân tích số liệu, hiển thị dữ liệu cách sinh động
+
+Mapbox: cân Accses tokens
+
+1.Source-Layer-Feature Mapbox: 
+
+Source: tệp dữ liệu cung cấp cho bản đồ 
+các kiểu: Vector,Raster,GeoJson,image,video => được trình diễn qua các layer
+
+Layer: là lớp bản đồ định nghĩa kiểu trình bày của nhóm dữ liệu để map có thể hiểu được
+
+cấu trúc cơ bản của GeoJSON: 
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Point"(điểm), "StringLine"(đoạn thẳng 2 đường đánh dấu),"Polygon"()
+        "coordinates": [
+          94.21875,
+          61.938950426660604
+        ]
+      }
+    }
+  ]
+}
+
+2.Hash Mapbox: cung cấp điểm zoom trên url 
+
+3.Event Mapbox: ON ,ONCE , OFF
+ON: thêm sự kiện
+ONCE: thêm sự kiện nhưng chỉ lắng nghe 1 lần duy nhất
+OFF: Tắt sự kiện đã được thêm
