@@ -32,78 +32,97 @@ height: calc(100vh - 15px);
 
 </style>
 
-    <div class="left-panel">
-      <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Chức năng <i style="float:right; " class="fa-solid fa-arrow-left-long" onclick="closeLeftPanel()"></i></h5>
+    
         
-            
+         <div class="right-panel-background">
+          <div style="display: flex;justify-content:space-around ;align-items: center;">
+           <div >
+            <input
+            type="radio"
+            class="radio-style"
+            id="bright"
+            name="styleOSM"
+            value="bright"
+            checked
+            onchange="changeStyleMap('bright')"
+            />
+            <label for="bright">Sáng</label>
+           </div>
+             
+          <div>
+            <input
+            type="radio"
+            class="radio-style"
+            id="gray"
+            name="styleOSM"
+            value="gray"
+            onchange="changeStyleMap('gray')"
+            />
+            <label for="gray">Xám</label>
+          </div>
+          <div>
+            <input
+            type="radio"
+            class="radio-style"
+            id="dark"
+            name="styleOSM"
+            value="dark"
+            onchange="changeStyleMap('dark')"
+            />
+            <label for="dark">Đêm</label>
+          </div>
+            <div>
+              <input
+              type="radio"
+              class="radio-style"
+              id="night"
+              name="styleOSM"
+              value="night"
+              onchange="changeStyleMap('night')"
+              />
+              <label for="night">Tối</label>
+            </div>
+          
+          </div>
+         
+          <br>
+          <div class="right-panel-raster" style="display:flex ; justify-content: space-between; align-items: center;">
+          <div style="margin-left: 20px;">
+            <input
+            type="checkbox"
+            class="radio-style"
+            id="lumlayer"
+            name="styleOSM"
+            value="lumlayer"
+            onchange="changeStyleMap('lumlayer')"
+            />
+            <label for="night">LUM Map</label>
+          </div> 
+            <div style="margin-right:20px;">
+              <input
+              type="checkbox"
+              class="radio-style"
+              id="zooningLayer"
+              name="styleOSM"
+              value="zooningLayer"
+              onchange="changeStyleMap('zooningLayer')"
+              />
+              <label for="night">ZNM Map</label> 
+            </div>
+            </div>
+           
+ 
+
+
+
+          </div>
+         
                        
-                            <input
-                            type="radio"
-                            class="radio-style"
-                            id="bright"
-                            name="styleOSM"
-                            value="bright"
-                            checked
-                            onchange="changeStyleMap('bright')"
-                            />
-                            <label for="bright">Sáng</label>
-                            <input
-                            type="radio"
-                            class="radio-style"
-                            id="gray"
-                            name="styleOSM"
-                            value="gray"
-                            onchange="changeStyleMap('gray')"
-                            />
-                            <label for="gray">Xám</label>
-                            <input
-                            type="radio"
-                            class="radio-style"
-                            id="dark"
-                            name="styleOSM"
-                            value="dark"
-                            onchange="changeStyleMap('dark')"
-                            />
-                            <label for="dark">Đêm</label>
-                            <input
-                            type="radio"
-                            class="radio-style"
-                            id="night"
-                            name="styleOSM"
-                            value="night"
-                            onchange="changeStyleMap('night')"
-                            />
-                            <label for="night">Tối</label>
-                            <input
-                            type="radio"
-                            class="radio-style"
-                            id="lumlayer"
-                            name="styleOSM"
-                            value="lumlayer"
-                            onchange="changeStyleMap('lumlayer')"
-                            />
-                            <label for="night">LUM</label>
-                            
-                            <input
-                            type="radio"
-                            class="radio-style"
-                            id="zooningLayer"
-                            name="styleOSM"
-                            value="zooningLayer"
-                            onchange="changeStyleMap('zooningLayer')"
-                            />
-                            <label for="night">ZNM</label>
+                           
                           
               
         
-        </div>
-      </div>
-    </div>
-    <div class="btn-open-leftpanel" onclick="openLeftPanel()">
-        <i class="fas fa-arrow-right"></i>
-    </div> 
+
 <div id="divMapId" class="map">
 
 </div>
