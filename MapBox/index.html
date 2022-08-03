@@ -113,6 +113,7 @@ height: calc(100vh - 15px);
               name="styleMap"
               value="zooningLayer"
               onchange="changeStyleMap('zooningLayer')"
+           
               />
               <label for="night">ZNM Map</label> 
             </div>
@@ -157,6 +158,15 @@ res.length.toFixed(2) + ' ' + res.units;
 document.getElementById('contentMeasure').innerHTML =
 res.area.toFixed(2) + ' ' + res.units + '<sup>2</sup>';
 }
+});
+map.on('click', (e) => {
+const { lng, lat } = e.lngLat;
+new mapboxgl.Popup()
+.setLngLat(e.lngLat)
+.setHTML(
+'Vị trí:<br/> ' + 'Kinh độ:' + lng + '<br/>' + 'Vĩ độ: ' + lat
+)
+.addTo(map);
 });
 //khởi tạo
 var direction = new ekmapplf.service.Direction({
@@ -222,17 +232,88 @@ map.addLayer({
 }
 
 
+map.on('load', () => {
+map.addSource('places', {
+'type': 'geojson',
+'data': {
+'type': 'FeatureCollection',
+'features': [
+{
+'type': 'Feature',
+'properties': {
+'description': '<p>Đây là thành phố Đà Nẵng</p>'
+},
+'geometry': {
+'type': 'Point',
+'coordinates': [108.202164, 16.054407]
+}
+},
+{
+'type': 'Feature',
+'properties': {
+'description': '<p>Đây là thủ đô Hà Nội</p>'
+},
+'geometry': {
+'type': 'Point',
+'coordinates': [105.853882, 21.02828]
+}
+},
+{
+'type': 'Feature',
+'properties': {
+'description': '<p>Đây là thành phố Hồ chí Minh</p>'
+},
+'geometry': {
+'type': 'Point',
+'coordinates': [106.634588, 10.807779]
+}
+}
+]
+}
+});
+// Thêm layer hiển thị địa điểm
+map.addLayer({
+'id': 'places',
+'type': 'circle',
+'source': 'places',
+'paint': {
+'circle-radius': 10,
+"circle-color": "red",
+},
+});
+});
+ 
+// Bắt sự kiện click để hiển thị popup ngay tại vị trí địa điểm cùng với thông
+// tin từ thuộc tính description
+map.on('click', 'places', (e) => {
+var coordinates = e.features[0].geometry.coordinates.slice();
+var description = e.features[0].properties.description;
+ 
+new mapboxgl.Popup()
+.setLngLat(coordinates)
+.setHTML(description)
+.addTo(map);
+});
+ 
+// Thay đổi con trỏ chuột thành pointer khi di chuyển qua địa điểm
+map.on('mouseenter', 'places', () => {
+map.getCanvas().style.cursor = 'pointer';
+});
+ 
+map.on('mouseleave', 'places', () => {
+map.getCanvas().style.cursor = '';
+});
+
 
 document.getElementById("btn1").onclick = function ()
-  {
- var checkbox = document.getElementsByName("styleOSM");
-                for (var i = 0; i < checkbox.length; i++){
-                    if (checkbox[i].checked === true){
-                        console.log(checkbox[i].value);
+            {
+                var checkbox1 = document.getElementsByName("styleOSM");
+                for (var i = 0; i < checkbox1.length; i++){
+                    if (checkbox1[i].checked === true){
+                       alert(checkbox1[i].value);
                     }
                 }
-              };
-
+            };
 
 var geocoder = new ekmapplf.control.GeoCoder({
 apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
@@ -251,31 +332,88 @@ var mapOSMBrigth = new ekmapplf.VectorBaseMap(
 var mapOSMGray = new ekmapplf.VectorBaseMap('OSM:Gray', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
 var mapOSMDark = new ekmapplf.VectorBaseMap('OSM:Dark', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
 var mapOSMNight = new ekmapplf.VectorBaseMap('OSM:Night', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
-mapOSMBrigth.addTo(map);
- 
+mapOSMNight.addTo(map);
+
+
+var checkBox = document.getElementById("lumlayer");
+var checkBox2 = document.getElementById("zooningLayer");
 function changeStyleMap(styleMap) {
 switch (styleMap) {
 case 'bright':
 mapOSMBrigth.addTo(map);
+checkBox.checked = false;
+checkBox2.checked = false;
 break;
 case 'gray':
 mapOSMGray.addTo(map);
+checkBox.checked = false;
+checkBox2.checked = false;
 break;
 case 'dark':
 mapOSMDark.addTo(map);
+checkBox.checked = false;
+checkBox2.checked = false;
 break;
 case 'night':
 mapOSMNight.addTo(map);
+checkBox.checked = false;
+checkBox2.checked = false;
+break;
 case 'lumlayer':
- 
-lumLayer.addTo(map);
- 
+
+
+if (checkBox.checked == true){
+lumLayer.addTo(map);}
+else {
+  var checkbox1 = document.getElementsByName("styleOSM");
+  for (var i = 0; i < checkbox1.length; i++){
+                    if (checkbox1[i].checked === true){
+                       if(checkbox1[i].value == "bright"){
+                         mapOSMBrigth.addTo(map);
+                       }if (checkbox1[i].value  == "gray") {
+                         mapOSMGray.addTo(map);
+                        
+                       } if(checkbox1[i].value == "dark"){
+                         mapOSMDark.addTo(map);
+                       } if(checkbox1[i].value == "night"){
+                         mapOSMNight.addTo(map);
+                       }
+                        
+                       
+                    }
+                }
+}
+              
+
+
 
 
 break;
 case 'zooningLayer':
-zooningLayer.addTo(map);
 
+
+if (checkBox2.checked == true){
+  zooningLayer.addTo(map);
+}
+else {
+  var checkbox1 = document.getElementsByName("styleOSM");
+  for (var i = 0; i < checkbox1.length; i++){
+                    if (checkbox1[i].checked === true){
+                       if(checkbox1[i].value == "bright"){
+                         mapOSMBrigth.addTo(map);
+                       }if (checkbox1[i].value  == "gray") {
+                         mapOSMGray.addTo(map);
+                        
+                       } if(checkbox1[i].value == "dark"){
+                         mapOSMDark.addTo(map);
+                       } if(checkbox1[i].value == "night"){
+                         mapOSMNight.addTo(map);
+                       }
+                        
+                       
+                    }
+                }
+}
 break;
 }
 }

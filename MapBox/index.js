@@ -21,7 +21,7 @@ dataGeoJson = {
       type: "Feature",
       geometry: {
         type: "Point",
-        coordinates: [105.8194541, 21.0227788],
+        coordinates: [108.202164, 16.054407],
       },
       properties: {
         name: "Hà Nội",
