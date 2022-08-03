@@ -44,7 +44,7 @@ height: calc(100vh - 15px);
             id="bright"
             name="styleOSM"
             value="bright"
-            checked
+        
             onchange="changeStyleMap('bright')"
             />
             <label for="bright">Sáng</label>
@@ -81,7 +81,8 @@ height: calc(100vh - 15px);
               class="radio-style"
               id="night"
               name="styleOSM"
-              value="night"
+              value="night"    
+              checked
               onchange="changeStyleMap('night')"
               />
               <label for="night">Tối</label>
@@ -122,7 +123,7 @@ height: calc(100vh - 15px);
            <div style="text-align:center ; margin-right:10px ;"> <i onclick="closeTab()" class="fas fa-times" ></i> </div>
             </div>
            
-           
+        
             
               <div id="measure-display" class="displayMeasure">
                 <i style="float: right;margin-right: 10px;" onclick="closeTabResult()" class="fas fa-times" ></i>
@@ -132,9 +133,13 @@ height: calc(100vh - 15px);
               </div>
               </div>
 
+        
+
 </div>
      
-         
+<div class="btn-open-leftpanel" >
+  <i class="fas fa-arrow-right"></i>
+</div> 
                        
                            
                           

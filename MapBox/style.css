@@ -87,4 +87,22 @@ body { margin: 0; padding: 0; }
     padding: 6px 5px 0px 10px;
     font-size: 15px;
     }
-   
+    .btn-open-leftpanel {
+        width: 40px;
+        height: 40px;
+        background-color: #fff;
+        top: 50%;
+        left: 1rem;
+        transform: translateY(-50%);
+        position: absolute;
+        z-index: 9;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;}
+    .btn-open-leftpanel :hover {
+        
+        background-color: gray;
+        cursor: pointer;
+        
+    }
