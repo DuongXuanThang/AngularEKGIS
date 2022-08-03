@@ -35,7 +35,7 @@ height: calc(100vh - 15px);
     
         
          <div class="right-panel-background">
-          <div style="display: flex;justify-content:space-around ;align-items: center;">
+          <div class="tabBG"  style="display: flex;justify-content:space-around ;align-items: center;">
            <div >
             <input
            style="accent-color: #14B5A0;"
@@ -85,11 +85,13 @@ height: calc(100vh - 15px);
               onchange="changeStyleMap('night')"
               />
               <label for="night">Tối</label>
+            
+             
             </div>
-          
+            <div style="text-align:center ; " > </div>
           </div>
-         
-          <br>
+      
+        
           <div class="right-panel-raster" style="display:flex ; justify-content: space-between; align-items: center;">
           <div style="margin-left: 20px;">
             <input
@@ -117,20 +119,21 @@ height: calc(100vh - 15px);
               />
               <label for="night">ZNM Map</label> 
             </div>
-            <input type="button" id="btn1" value="Radio"/>
+           <div style="text-align:center ; margin-right:10px ;"> <i onclick="closeTab()" class="fas fa-times" ></i> </div>
             </div>
            
            
             
               <div id="measure-display" class="displayMeasure">
-              <div class="labelMeasure">Kết quả đo:</div>
+                <i style="float: right;margin-right: 10px;" onclick="closeTabResult()" class="fas fa-times" ></i>
+              <div class="labelMeasure">Kết quả đo: </div>
               <div class="contentMeasure">
               <span id="contentMeasure" style="font-weight: 700"></span>
               </div>
               </div>
 
-
-          </div>
+</div>
+     
          
                        
                            
@@ -142,282 +145,7 @@ height: calc(100vh - 15px);
 
 </div>
  
-<script> 
-var map = new mapboxgl.Map({
-container: 'divMapId',
-center: [105, 17],
-zoom: 4
-});
-var measure = new ekmapplf.control.Measure();
-map.addControl(measure, 'top-right');
-measure.on('endMeasure', function (res) {
-if (res.typeMeasure == 'Length') {
-document.getElementById('contentMeasure').innerHTML =
-res.length.toFixed(2) + ' ' + res.units;
-} else {
-document.getElementById('contentMeasure').innerHTML =
-res.area.toFixed(2) + ' ' + res.units + '<sup>2</sup>';
-}
-});
-map.on('click', (e) => {
-const { lng, lat } = e.lngLat;
-new mapboxgl.Popup()
-.setLngLat(e.lngLat)
-.setHTML(
-'Vị trí:<br/> ' + 'Kinh độ:' + lng + '<br/>' + 'Vĩ độ: ' + lat
-)
-.addTo(map);
-});
-//khởi tạo
-var direction = new ekmapplf.service.Direction({
-apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
-});
- 
-//ví dụ click trên bản đồ để xác định 2 điểm
-var startPoint, endPoint, markerStart, markerEnd;
-map.on('click', function (evt) {
-if (!startPoint) startPoint = evt.lngLat;
- 
-if (!endPoint) endPoint = evt.lngLat;
-else {
-startPoint = endPoint;
-endPoint = evt.lngLat;
-}
-if (!markerStart)
-markerStart = new mapboxgl.Marker()
-.setLngLat(startPoint.toArray())
-.addTo(map);
-else markerStart.setLngLat(startPoint.toArray());
- 
-routing();
-});
- 
-//gọi dịch vụ tìm đường
-function routing() {
-if (startPoint && endPoint && startPoint != endPoint) {
-if (!markerEnd)
-markerEnd = new mapboxgl.Marker({ color: 'red' })
-.setLngLat(endPoint.toArray())
-.addTo(map);
-else markerEnd.setLngLat(endPoint.toArray());
-direction.setOrigin(startPoint.toArray()); //thiết lập điểm đầu
-console.log(startPoint.toArray());
-direction.setDestination(endPoint.toArray()); //thiết lập điểm cuối
-//xác định được đường đi
-direction.run(function(error, data){
-var featureData = {
-'type': 'Feature',
-'properties': {},
-'geometry': data.routes[0].geometry
-};
-if (map.getSource('route')) {
-map.getSource('route').setData(featureData);
-} else {
-map.addSource('route', {
-'type': 'geojson',
-'data': featureData
-});
-map.addLayer({
-'id': 'route',
-'type': 'line',
-'source': 'route',
-'paint': {
-'line-color': '#4882c5',
-'line-width': 7
-}
-});
-}
-});
-}
-}
 
-
-map.on('load', () => {
-map.addSource('places', {
-'type': 'geojson',
-'data': {
-'type': 'FeatureCollection',
-'features': [
-{
-'type': 'Feature',
-'properties': {
-'description': '<p>Đây là thành phố Đà Nẵng</p>'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [108.202164, 16.054407]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description': '<p>Đây là thủ đô Hà Nội</p>'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [105.853882, 21.02828]
-}
-},
-{
-'type': 'Feature',
-'properties': {
-'description': '<p>Đây là thành phố Hồ chí Minh</p>'
-},
-'geometry': {
-'type': 'Point',
-'coordinates': [106.634588, 10.807779]
-}
-}
-]
-}
-});
-// Thêm layer hiển thị địa điểm
-map.addLayer({
-'id': 'places',
-'type': 'circle',
-'source': 'places',
-'paint': {
-'circle-radius': 10,
-"circle-color": "red",
-},
-});
-});
- 
-// Bắt sự kiện click để hiển thị popup ngay tại vị trí địa điểm cùng với thông
-// tin từ thuộc tính description
-map.on('click', 'places', (e) => {
-var coordinates = e.features[0].geometry.coordinates.slice();
-var description = e.features[0].properties.description;
- 
-new mapboxgl.Popup()
-.setLngLat(coordinates)
-.setHTML(description)
-.addTo(map);
-});
- 
-// Thay đổi con trỏ chuột thành pointer khi di chuyển qua địa điểm
-map.on('mouseenter', 'places', () => {
-map.getCanvas().style.cursor = 'pointer';
-});
- 
-map.on('mouseleave', 'places', () => {
-map.getCanvas().style.cursor = '';
-});
-
-
-document.getElementById("btn1").onclick = function ()
-            {
-                var checkbox1 = document.getElementsByName("styleOSM");
-                for (var i = 0; i < checkbox1.length; i++){
-                    if (checkbox1[i].checked === true){
-                       alert(checkbox1[i].value);
-                    }
-                }
-            };
-
-var geocoder = new ekmapplf.control.GeoCoder({
-apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
-});
-map.addControl(geocoder, 'top-left');
-var zooningLayer = new ekmapplf.layer.Zoning({
-'apiKey': 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
-});
-var lumLayer = new ekmapplf.layer.LandUse({
-'apiKey': 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
-});
-var mapOSMBrigth = new ekmapplf.VectorBaseMap(
-'OSM:Bright',
-'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
-);
-var mapOSMGray = new ekmapplf.VectorBaseMap('OSM:Gray', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
-var mapOSMDark = new ekmapplf.VectorBaseMap('OSM:Dark', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
-var mapOSMNight = new ekmapplf.VectorBaseMap('OSM:Night', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
-mapOSMNight.addTo(map);
-
-
-var checkBox = document.getElementById("lumlayer");
-var checkBox2 = document.getElementById("zooningLayer");
-function changeStyleMap(styleMap) {
-switch (styleMap) {
-case 'bright':
-mapOSMBrigth.addTo(map);
-checkBox.checked = false;
-checkBox2.checked = false;
-break;
-case 'gray':
-mapOSMGray.addTo(map);
-checkBox.checked = false;
-checkBox2.checked = false;
-break;
-case 'dark':
-mapOSMDark.addTo(map);
-checkBox.checked = false;
-checkBox2.checked = false;
-break;
-case 'night':
-mapOSMNight.addTo(map);
-checkBox.checked = false;
-checkBox2.checked = false;
-break;
-case 'lumlayer':
-
-
-if (checkBox.checked == true){
-lumLayer.addTo(map);}
-else {
-  var checkbox1 = document.getElementsByName("styleOSM");
-  for (var i = 0; i < checkbox1.length; i++){
-                    if (checkbox1[i].checked === true){
-                       if(checkbox1[i].value == "bright"){
-                         mapOSMBrigth.addTo(map);
-                       }if (checkbox1[i].value  == "gray") {
-                         mapOSMGray.addTo(map);
-                        
-                       } if(checkbox1[i].value == "dark"){
-                         mapOSMDark.addTo(map);
-                       } if(checkbox1[i].value == "night"){
-                         mapOSMNight.addTo(map);
-                       }
-                        
-                       
-                    }
-                }
-}
-              
-
-
-
-
-break;
-case 'zooningLayer':
-
-
-if (checkBox2.checked == true){
-  zooningLayer.addTo(map);
-}
-else {
-  var checkbox1 = document.getElementsByName("styleOSM");
-  for (var i = 0; i < checkbox1.length; i++){
-                    if (checkbox1[i].checked === true){
-                       if(checkbox1[i].value == "bright"){
-                         mapOSMBrigth.addTo(map);
-                       }if (checkbox1[i].value  == "gray") {
-                         mapOSMGray.addTo(map);
-                        
-                       } if(checkbox1[i].value == "dark"){
-                         mapOSMDark.addTo(map);
-                       } if(checkbox1[i].value == "night"){
-                         mapOSMNight.addTo(map);
-                       }
-                        
-                       
-                    }
-                }
-}
-break;
-}
-}
-</script>
  <script src="index.js"></script>
  
 </body>
