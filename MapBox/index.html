@@ -38,6 +38,7 @@ height: calc(100vh - 15px);
           <div style="display: flex;justify-content:space-around ;align-items: center;">
            <div >
             <input
+           style="accent-color: #14B5A0;"
             type="radio"
             class="radio-style"
             id="bright"
@@ -51,6 +52,7 @@ height: calc(100vh - 15px);
              
           <div>
             <input
+            style="accent-color: #14B5A0;"
             type="radio"
             class="radio-style"
             id="gray"
@@ -62,6 +64,7 @@ height: calc(100vh - 15px);
           </div>
           <div>
             <input
+            style="accent-color: #14B5A0;"
             type="radio"
             class="radio-style"
             id="dark"
@@ -73,6 +76,7 @@ height: calc(100vh - 15px);
           </div>
             <div>
               <input
+              style="accent-color: #14B5A0;"
               type="radio"
               class="radio-style"
               id="night"
@@ -89,30 +93,40 @@ height: calc(100vh - 15px);
           <div class="right-panel-raster" style="display:flex ; justify-content: space-between; align-items: center;">
           <div style="margin-left: 20px;">
             <input
+            style="accent-color: #14B5A0;"
             type="checkbox"
             class="radio-style"
             id="lumlayer"
-            name="styleOSM"
+            name="styleMap"
             value="lumlayer"
             onchange="changeStyleMap('lumlayer')"
+           
             />
             <label for="night">LUM Map</label>
           </div> 
             <div style="margin-right:20px;">
               <input
+              style="accent-color: #14B5A0;"
               type="checkbox"
               class="radio-style"
               id="zooningLayer"
-              name="styleOSM"
+              name="styleMap"
               value="zooningLayer"
               onchange="changeStyleMap('zooningLayer')"
               />
               <label for="night">ZNM Map</label> 
             </div>
+            <input type="button" id="btn1" value="Radio"/>
             </div>
            
- 
-
+           
+            
+              <div id="measure-display" class="displayMeasure">
+              <div class="labelMeasure">Kết quả đo:</div>
+              <div class="contentMeasure">
+              <span id="contentMeasure" style="font-weight: 700"></span>
+              </div>
+              </div>
 
 
           </div>
@@ -127,12 +141,99 @@ height: calc(100vh - 15px);
 
 </div>
  
-<script>
+<script> 
 var map = new mapboxgl.Map({
 container: 'divMapId',
 center: [105, 17],
 zoom: 4
 });
+var measure = new ekmapplf.control.Measure();
+map.addControl(measure, 'top-right');
+measure.on('endMeasure', function (res) {
+if (res.typeMeasure == 'Length') {
+document.getElementById('contentMeasure').innerHTML =
+res.length.toFixed(2) + ' ' + res.units;
+} else {
+document.getElementById('contentMeasure').innerHTML =
+res.area.toFixed(2) + ' ' + res.units + '<sup>2</sup>';
+}
+});
+//khởi tạo
+var direction = new ekmapplf.service.Direction({
+apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
+});
+ 
+//ví dụ click trên bản đồ để xác định 2 điểm
+var startPoint, endPoint, markerStart, markerEnd;
+map.on('click', function (evt) {
+if (!startPoint) startPoint = evt.lngLat;
+ 
+if (!endPoint) endPoint = evt.lngLat;
+else {
+startPoint = endPoint;
+endPoint = evt.lngLat;
+}
+if (!markerStart)
+markerStart = new mapboxgl.Marker()
+.setLngLat(startPoint.toArray())
+.addTo(map);
+else markerStart.setLngLat(startPoint.toArray());
+ 
+routing();
+});
+ 
+//gọi dịch vụ tìm đường
+function routing() {
+if (startPoint && endPoint && startPoint != endPoint) {
+if (!markerEnd)
+markerEnd = new mapboxgl.Marker({ color: 'red' })
+.setLngLat(endPoint.toArray())
+.addTo(map);
+else markerEnd.setLngLat(endPoint.toArray());
+direction.setOrigin(startPoint.toArray()); //thiết lập điểm đầu
+console.log(startPoint.toArray());
+direction.setDestination(endPoint.toArray()); //thiết lập điểm cuối
+//xác định được đường đi
+direction.run(function(error, data){
+var featureData = {
+'type': 'Feature',
+'properties': {},
+'geometry': data.routes[0].geometry
+};
+if (map.getSource('route')) {
+map.getSource('route').setData(featureData);
+} else {
+map.addSource('route', {
+'type': 'geojson',
+'data': featureData
+});
+map.addLayer({
+'id': 'route',
+'type': 'line',
+'source': 'route',
+'paint': {
+'line-color': '#4882c5',
+'line-width': 7
+}
+});
+}
+});
+}
+}
+
+
+
+document.getElementById("btn1").onclick = function ()
+  {
+ var checkbox = document.getElementsByName("styleOSM");
+                for (var i = 0; i < checkbox.length; i++){
+                    if (checkbox[i].checked === true){
+                        console.log(checkbox[i].value);
+                    }
+                }
+              };
+
+
 var geocoder = new ekmapplf.control.GeoCoder({
 apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
 });
@@ -166,9 +267,15 @@ break;
 case 'night':
 mapOSMNight.addTo(map);
 case 'lumlayer':
+ 
 lumLayer.addTo(map);
+ 
+
+
+break;
 case 'zooningLayer':
 zooningLayer.addTo(map);
+
 break;
 }
 }

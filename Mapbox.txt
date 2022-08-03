@@ -37,4 +37,5 @@ OFF: Tắt sự kiện đã được thêm
 
 4.Truy vấn dữ liệu trên Mapbox: 
 filter(giới hạn các query)
-, layer(danh sách các layer), validate
+, layer(danh sách các layer)
+, validate
