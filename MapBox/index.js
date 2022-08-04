@@ -433,6 +433,12 @@ function closeTab() {
         elm.style.display = 'none';
     }
 }
+function openTab() {
+  var elm = document.querySelector('.right-panel-raster');
+  if (elm) {
+      elm.style.display = 'flex';
+  }
+}
 
 
 
