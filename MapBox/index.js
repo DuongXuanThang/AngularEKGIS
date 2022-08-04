@@ -360,14 +360,16 @@ break;
 case 'lumlayer':
 
 
-if (checkBox.checked == true){
+if (checkBox.checked === true){
 lumLayer.addTo(map);}
 else {
+  
   var checkbox1 = document.getElementsByName("styleOSM");
   for (var i = 0; i < checkbox1.length; i++){
                     if (checkbox1[i].checked === true){
-                       if(checkbox1[i].value == "bright"){
+                       if(checkbox1[i].value == "bright" ){
                          mapOSMBrigth.addTo(map);
+                       
                        }if (checkbox1[i].value  == "gray") {
                          mapOSMGray.addTo(map);
                         
@@ -394,11 +396,13 @@ if (checkBox2.checked == true){
   zooningLayer.addTo(map);
 }
 else {
+  
   var checkbox1 = document.getElementsByName("styleOSM");
   for (var i = 0; i < checkbox1.length; i++){
                     if (checkbox1[i].checked === true){
                        if(checkbox1[i].value == "bright"){
                          mapOSMBrigth.addTo(map);
+
                        }if (checkbox1[i].value  == "gray") {
                          mapOSMGray.addTo(map);
                         
@@ -441,4 +445,28 @@ function openTab() {
 }
 
 
-
+function closeTabLeft() {
+    var elm = document.querySelector('.wrraper');
+    var elm2 = document.querySelector('.btn-open-leftpanel');
+    if (elm) {
+        elm.style.display = 'none';
+        elm2.style.display = 'flex';
+    }
+}
+function openTabLeft() {
+  var elm = document.querySelector('.wrraper');
+  var elm2 = document.querySelector('.btn-open-leftpanel');
+  if (elm) {
+      elm.style.display = 'block';
+      elm2.style.display = 'none';
+  }
+}
+var header = document.getElementById("list-group");
+var btns = document.getElementsByClassName("list-group-item list-group-item-action");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+  var current = document.getElementsByClassName("active");
+  current[0].className = current[0].className.replace(" active", "");
+  this.className += " active";
+  });
+}

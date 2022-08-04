@@ -1,13 +1,9 @@
 body { margin: 0; padding: 0; }
 	#map { position: absolute; top: 0; bottom: 0; width: 100%; background:#ddd;}
-.wrapper {
-   width: 100%;
-   height: 100vh;
-   position: relative;
-}
+
 .map {
     width: 100%;
-    height: calc(100vh - 15px);
+   height: 100%;
     }
     .selectStyle {
     position: absolute;
@@ -97,7 +93,7 @@ body { margin: 0; padding: 0; }
         position: absolute;
         z-index: 9;
         border-radius: 5px;
-        display: flex;
+        display: none;
         align-items: center;
         justify-content: center;}
        .btn-open-rightpanel{
@@ -114,3 +110,18 @@ body { margin: 0; padding: 0; }
         align-items: center;
         justify-content: center;
        }
+.wrraper {
+    width: 312px;
+    height: 700px;;   
+    background-color: #fff;
+    left:0.7rem;
+    top: 100px;
+    position: absolute;
+    z-index: 3;
+    
+    box-shadow: 0 2px 4px rgb(0 0 0 / 20%), 0 -1px 0px rgb(0 0 0 / 2%) !important;
+   
+    border-radius: 5px;
+   
+   
+}
