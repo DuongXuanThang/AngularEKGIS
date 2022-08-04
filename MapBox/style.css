@@ -60,7 +60,7 @@ body { margin: 0; padding: 0; }
 }
 .displayMeasure {
     background-color: #fff;
-    right: 150px;
+    right: 450px;
     top: 100px;
     position: absolute;
     z-index: 3;
@@ -95,7 +95,7 @@ body { margin: 0; padding: 0; }
         border-radius: 5px;
         display: none;
         align-items: center;
-        justify-content: center;}
+        justify-content:center;}
        .btn-open-rightpanel{
         width: 40px;
         height: 40px;
@@ -112,10 +112,25 @@ body { margin: 0; padding: 0; }
        }
 .wrraper {
     width: 312px;
-    height: 700px;;   
+    height: 580px;;   
     background-color: #fff;
     left:0.7rem;
     top: 100px;
+    position: absolute;
+    z-index: 3;
+    
+    box-shadow: 0 2px 4px rgb(0 0 0 / 20%), 0 -1px 0px rgb(0 0 0 / 2%) !important;
+   
+    border-radius: 5px;
+   
+   
+}
+.wrraper2 {
+    width: 300px;
+    height: 160px;;   
+    background-color: #fff;
+    right:1rem;
+    top: 210px;
     position: absolute;
     z-index: 3;
     

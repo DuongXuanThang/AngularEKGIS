@@ -150,6 +150,8 @@ container: 'divMapId',
 center: [105, 17],
 zoom: 4
 });
+
+function Measure(){
 var measure = new ekmapplf.control.Measure();
 map.addControl(measure, 'top-right');
 measure.on('endMeasure', function (res) {
@@ -163,18 +165,22 @@ res.area.toFixed(2) + ' ' + res.units + '<sup>2</sup>';
 openTabResult();
 }
 });
+}
 
 
+function showLonglat(){
+  map.on('click', (e) => {
+    const { lng, lat } = e.lngLat;
+    new mapboxgl.Popup()
+    .setLngLat(e.lngLat)
+    .setHTML(
+    'Vị trí:<br/> ' + 'Kinh độ:' + lng + '<br/>' + 'Vĩ độ: ' + lat
+    )
+    .addTo(map);
+    });
 
-map.on('click', (e) => {
-const { lng, lat } = e.lngLat;
-new mapboxgl.Popup()
-.setLngLat(e.lngLat)
-.setHTML(
-'Vị trí:<br/> ' + 'Kinh độ:' + lng + '<br/>' + 'Vĩ độ: ' + lat
-)
-.addTo(map);
-});
+}
+
 //khởi tạo
 var direction = new ekmapplf.service.Direction({
 apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
@@ -435,15 +441,24 @@ function closeTab() {
     var elm = document.querySelector('.right-panel-raster');
     if (elm) {
         elm.style.display = 'none';
+        
     }
 }
 function openTab() {
   var elm = document.querySelector('.right-panel-raster');
   if (elm) {
       elm.style.display = 'flex';
+      openRightTab();
+      closeTabLeft();
   }
 }
 
+function openRightTab() {
+  var elm = document.querySelector('.wrraper2');
+  if (elm) {
+      elm.style.display = 'flex';
+  }
+}
 
 function closeTabLeft() {
     var elm = document.querySelector('.wrraper');
@@ -459,8 +474,16 @@ function openTabLeft() {
   if (elm) {
       elm.style.display = 'block';
       elm2.style.display = 'none';
+      closeRightTab();
   }
 }
+function closeRightTab() {
+    var elm = document.querySelector('.wrraper2');
+    if (elm) {
+        elm.style.display = 'none';
+    }
+}
+
 var header = document.getElementById("list-group");
 var btns = document.getElementsByClassName("list-group-item list-group-item-action");
 for (var i = 0; i < btns.length; i++) {
@@ -469,4 +492,28 @@ for (var i = 0; i < btns.length; i++) {
   current[0].className = current[0].className.replace(" active", "");
   this.className += " active";
   });
+}
+function inforHieght() {
+var elevationService = new ekmapplf.service.Elevation('w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
+var popupInfo = new mapboxgl.Popup({
+anchor: 'bottom'
+});
+map.on('click', function (e) {
+elevationService
+.at([e.lngLat.lng, e.lngLat.lat])
+.run(function (error, response) {
+if (response != undefined) {
+popupInfo
+.setLngLat([e.lngLat.lng, e.lngLat.lat])
+.setHTML(
+'<div>Độ cao: ' +
+response.elevation +
+' m</div><div>Độ dốc: ' +
+response.slope +
+'</div>'
+)
+.addTo(map);
+}
+});
+});
 }

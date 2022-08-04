@@ -124,17 +124,18 @@ height: calc(100vh - 15px);
             </div>
            
         
-            
-              <div id="measure-display" class="displayMeasure">
-                <i style="float: right;margin-right: 10px;" onclick="closeTabResult()" class="fas fa-times" ></i>
-              <div class="labelMeasure">Kết quả đo: </div>
-              <div class="contentMeasure">
-              <span id="contentMeasure" style="font-weight: 700"></span>
-              </div>
-              </div>
+           
 
            
 
+</div>
+ 
+<div id="measure-display" class="displayMeasure">
+  <i style="float: right;margin-right: 10px;" onclick="closeTabResult()" class="fas fa-times" ></i>
+<div class="labelMeasure">Kết quả đo: </div>
+<div class="contentMeasure">
+<span id="contentMeasure" style="font-weight: 700"></span>
+</div>
 </div>
 <div class="wrraper">
   <div  class="card">
@@ -142,21 +143,39 @@ height: calc(100vh - 15px);
      Chức năng truy vấn <i onclick="closeTabLeft()" style="float:right ;" class="fas fa-arrow-left"></i>
     </div>
     <div class="list-group">
-      <div  onclick="openTab()" class="list-group-item list-group-item-action active" aria-current="true">
+      <div onclick="inforHieght()"   class="list-group-item list-group-item-action active" aria-current="true">
        Thông tin độ cao
       </div>
-      <div href="#" class="list-group-item list-group-item-action ">Thông tin sử dụng đất</div>
+      <div href="#" class="list-group-item list-group-item-action ">Thông tin quy hoạch sử dụng đất </div>
+      <div href="#" class="list-group-item list-group-item-action">Thông tin quy hoạch kế hoạch sử dụng đất</div>
+      <div href="#" class="list-group-item list-group-item-action">Thông tin quy hoạch sử dụng đất xây dựng</div>
+      <div href="#" class="list-group-item list-group-item-action">Thông tin khu vực bảo tồn</div>
+      <div href="#" class="list-group-item list-group-item-action">Thông tin về Kinh tế và Xã hội</div>
       <div href="#" class="list-group-item list-group-item-action">Thông tin thổ nhưỡng</div>
-      <div href="#" class="list-group-item list-group-item-action">Thông tin đơn vị hành chính</div>
-      <div href="#" class="list-group-item list-group-item-action">Thông tin đơn vị hành chính</div>
-      <div href="#" class="list-group-item list-group-item-action">Thông tin đơn vị hành chính</div>
-      <div href="#" class="list-group-item list-group-item-action">Thông tin đơn vị hành chính</div>
-      <div href="#" class="list-group-item list-group-item-action">Thông tin đơn vị hành chính</div>
-      <div class="list-group-item list-group-item-action disabled">A disabled link item</div>
+      <div href="#" class="list-group-item list-group-item-action">Thông tin hành lang an toàn đường sắt</div>
+      <div href="#" class="list-group-item list-group-item-action">Thông tin khoảng cách đến trung tâm đơn vị hành chính</div>
+        <div href="#" class="list-group-item list-group-item-action">Thông tin hành lang an toàn lưới điện</div>
+     
     </div>
   </div>
 </div> 
-<div  onclick="openTabLeft()" class="btn-open-leftpanel" >
+<div class="wrraper2">
+  <div  class="card">
+    <div class="card-body">
+    <h6> Chức năng <i onclick="closeRightTab()" style="float:right ;" class="fas fa-times"></i></h6>
+    </div>
+    <div class="list-group">
+      <div onclick="Measure()"   class="list-group-item list-group-item-action " aria-current="true">
+     Công cụ đo đạc
+      </div>
+      
+        <div onclick="showLonglat()" class="list-group-item list-group-item-action">Thông tin tọa độ vị trí</div>
+     
+    </div>
+  </div>
+</div>
+<div onclick="openTabLeft()" class="btn-open-leftpanel" >
+
   <i  class="fas fa-arrow-right"></i>
 </div> 
    
