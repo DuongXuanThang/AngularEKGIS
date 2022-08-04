@@ -150,10 +150,14 @@ container: 'divMapId',
 center: [105, 17],
 zoom: 4
 });
-
+var isFirst = true;
 function Measure(){
-var measure = new ekmapplf.control.Measure();
-map.addControl(measure, 'top-right');
+  if(isFirst == true){
+  var measure = new ekmapplf.control.Measure();
+  map.addControl(measure, 'top-right');
+  isFirst = false;
+  }
+
 measure.on('endMeasure', function (res) {
 if (res.typeMeasure == 'Length') {
 document.getElementById('contentMeasure').innerHTML =
@@ -165,6 +169,7 @@ res.area.toFixed(2) + ' ' + res.units + '<sup>2</sup>';
 openTabResult();
 }
 });
+
 }
 
 
@@ -214,7 +219,7 @@ markerEnd = new mapboxgl.Marker({ color: 'red' })
 .addTo(map);
 else markerEnd.setLngLat(endPoint.toArray());
 direction.setOrigin(startPoint.toArray()); //thiết lập điểm đầu
-console.log(startPoint.toArray());
+
 direction.setDestination(endPoint.toArray()); //thiết lập điểm cuối
 //xác định được đường đi
 direction.run(function(error, data){
@@ -497,6 +502,7 @@ for (var i = 0; i < btns.length; i++) {
   current[0].className = current[0].className.replace(" active", "");
   this.className += " active";
   });
+  
 }
 function inforHieght() {
 var elevationService = new ekmapplf.service.Elevation('w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
@@ -521,4 +527,5 @@ response.slope +
 }
 });
 });
+
 }
