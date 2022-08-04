@@ -86,20 +86,20 @@ body { margin: 0; padding: 0; }
     .btn-open-leftpanel {
         width: 40px;
         height: 40px;
-        background-color: #fff;
+        background-color: #14B5A0;
         top: 50%;
         left: 1rem;
         transform: translateY(-50%);
         position: absolute;
         z-index: 9;
         border-radius: 5px;
-        display: none;
+        
         align-items: center;
         justify-content:center;}
        .btn-open-rightpanel{
         width: 40px;
         height: 40px;
-        background-color: #fff;
+        background-color: #14B5A0;
         top: 50%;
         right: 1rem;
         transform: translateY(-50%);
@@ -117,13 +117,16 @@ body { margin: 0; padding: 0; }
     left:0.7rem;
     top: 100px;
     position: absolute;
-    z-index: 3;
-    
+    z-index: 1;
+    display: none;
     box-shadow: 0 2px 4px rgb(0 0 0 / 20%), 0 -1px 0px rgb(0 0 0 / 2%) !important;
    
     border-radius: 5px;
    
    
+}
+.list-group > div.active {
+   background-color: #14B5A0;
 }
 .wrraper2 {
     width: 300px;

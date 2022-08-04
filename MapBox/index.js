@@ -445,9 +445,11 @@ function closeTab() {
     }
 }
 function openTab() {
+  var elm2 = document.querySelector('.btn-open-rightpanel');
   var elm = document.querySelector('.right-panel-raster');
   if (elm) {
       elm.style.display = 'flex';
+      elm2.style.display = 'none';
       openRightTab();
       closeTabLeft();
   }
@@ -475,12 +477,15 @@ function openTabLeft() {
       elm.style.display = 'block';
       elm2.style.display = 'none';
       closeRightTab();
+
   }
 }
 function closeRightTab() {
+  var elm2 = document.querySelector('.btn-open-rightpanel');
     var elm = document.querySelector('.wrraper2');
     if (elm) {
         elm.style.display = 'none';
+        elm2.style.display = 'flex';
     }
 }
 
