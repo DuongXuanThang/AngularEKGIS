@@ -39,3 +39,18 @@ OFF: Tắt sự kiện đã được thêm
 filter(giới hạn các query)
 , layer(danh sách các layer)
 , validate
+
+
+highVoltageService.at([e.lngLat.lng, e.lngLat.lat]).run(function (error, response) {
+  if (response != null) {
+  
+  if (response.distance == 0) {
+  data.voltage = response.voltage 
+  } else {
+  data.voltage =  response.voltage 
+  data.distancevol =  response.distance 
+  }
+  } 
+  
+var infor =  document.getElementById("7").innerHTML = `Thuộc khu vực hành lang an toàn lưới điện: ${data.voltage} <br> Cách khu vực hành lang an toàn lưới điện: ${data.distancevol} ` 
+});

@@ -1,0 +1,15 @@
+Angular trick: 
+
+
+New project:
+
+npm install -g @angular/cli   //install AngularCLI
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned   // Shift+Rightclick
+
+ng new my-app
+cd my-app
+ng serve --open
+
+
+
+

@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Tìm đường đi giữa hai điểm</title>
+<title>Thêm Marker khi click chuột</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
 <script src="https://api.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.js"></script>
 <link href="https://api.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.css" rel="stylesheet" />
@@ -14,105 +14,33 @@
 </style>
 </head>
 <body>
-<div id="map">
-    <div style="
-            position: absolute;
-            z-index: 1;
-            left: 10px;
-            top: 10px;
-            background-color: white;
-            padding: 5px 10px;
-            font-size: 1rem;
-        ">
-        Click trên bản đồ để xác định điểm tìm đường
-    </div>
-</div>
-
+<div id="map"></div>
+ 
 <script>
-    var map = new mapboxgl.Map({
-        container: 'map',
-        center: [105, 17],
-        zoom: 4
-    });
-
-    /* Bản đồ nền */
-    var basemap = new ekmapplf.VectorBaseMap('OSM:Bright', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
-    basemap.addTo(map);
-
-    //===Chỉ đường
-
-    //khởi tạo
-    var routingService = new ekmapplf.service.Routing({
-        apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc',
-        profile: 'foot'
-    });
-
-    //ví dụ click trên bản đồ để xác định 2 điểm
-    var startPoint, endPoint, markerStart, markerEnd;
-    map.on('click', function (evt) {
-        if (!startPoint) startPoint = evt.lngLat;
-
-        if (!endPoint) endPoint = evt.lngLat;
-        else {
-            startPoint = endPoint;
-            endPoint = evt.lngLat;
-        }
-        if (!markerStart)
-            markerStart = new mapboxgl.Marker()
-                .setLngLat(startPoint.toArray())
-                .addTo(map);
-        else markerStart.setLngLat(startPoint.toArray());
-
-        routing();
-    });
-
-    //gọi dịch vụ tìm đường
-    function routing() {
-        if (startPoint && endPoint && startPoint != endPoint) {
-            if (!markerEnd)
-                markerEnd = new mapboxgl.Marker({ color: 'red' })
-                    .setLngLat(endPoint.toArray())
-                    .addTo(map);
-            else markerEnd.setLngLat(endPoint.toArray());
-
-            var coordinates = startPoint.toArray().toString() + ";" + endPoint.toArray().toString();
-            routingService.setCoordinates(coordinates); // thiết lập cặp điểm đầu và cuối
-
-            //xác định được đường đi
-            var paramRoute = {
-                overview: "full",
-                alternatives: false,
-                steps: false,
-                geometries: "geojson",
-            }
-            routingService.getRoute(paramRoute, function(error, data){
-                var featureData = {
-                    'type': 'Feature',
-                    'properties': {},
-                    'geometry': data.routes[0].geometry
-                };
-                if (map.getSource('route')) {
-                    map.getSource('route').setData(featureData);
-                } else {
-                    map.addSource('route', {
-                        'type': 'geojson',
-                        'data': featureData
-                    });
-                    map.addLayer({
-                        'id': 'route',
-                        'type': 'line',
-                        'source': 'route',
-                        'paint': {
-                            'line-color': '#4882c5',
-                            'line-width': 7
-                        }
-                    });
-                }
-            })
-        }
-    }
+var map = new mapboxgl.Map({
+container: 'map',
+center: [105, 17],
+zoom: 4
+});
+ 
+/* Bản đồ nền */
+var basemap = new ekmapplf.VectorBaseMap('OSM:Bright', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
+basemap.addTo(map);
+ 
+const currentMarkers = [];
+// Lắng nghe sự kiện click
+map.on('click', (e) => {
+const { lng, lat } = e.lngLat;
+const marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
+currentMarkers.push(marker);
+//chỉ thêm 5 đối tượng marker
+if (currentMarkers.length > 5) {
+const marker = currentMarkers.shift();
+marker.remove();
+}
+});
 </script>
-
-
+ 
+ 
 </body>
 </html>

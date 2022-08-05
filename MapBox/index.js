@@ -504,7 +504,7 @@ function closeRightTab() {
     }
 }
 
-var header = document.getElementById("list-group");
+
 var btns = document.getElementsByClassName("list-group-item list-group-item-action");
 for (var i = 0; i < btns.length; i++) {
   btns[i].addEventListener("click", function() {
@@ -521,13 +521,19 @@ var protectedAreaService = new ekmapplf.service.ProtectedArea('w1Dlh2wRon7mE6sL1
 var elevationService = new ekmapplf.service.Elevation('w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
 var zoningService = new ekmapplf.service.Zoning(api_key);
 var protectedAreaService = new ekmapplf.service.ProtectedArea(api_key);
+var populationService = new ekmapplf.service.Population(api_key);
+var soilService = new ekmapplf.service.Soil(api_key);
+var highVoltageService = new ekmapplf.service.HighVoltage(api_key);
+var distanceService = new ekmapplf.service.Distance(api_key);
 
+const currentMarkers = [];
 var data={};
 var elevationService = new ekmapplf.service.Elevation('w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
 var popupInfo = new mapboxgl.Popup({
 anchor: 'bottom'
 });
 map.on('click', function (e) {
+  show();
 elevationService
 .at([e.lngLat.lng, e.lngLat.lat])
 .run(function (error, response) {
@@ -536,6 +542,7 @@ if (response != undefined) {
   data.slope = response.slope;
 }
 var infor =  document.getElementById("0").innerHTML = `Thông tin độ cao:<br> -Độ cao: ${data.elevation}m <br> -Độ dốc: ${data.slope}m` 
+
 });
 
 landuseService
@@ -577,55 +584,93 @@ protectedAreaService
 .run(function (error, response) {
 if (response.length > 0) {
   if(response[0].distance == 0) {data.name =  response[0].name }
-else{ data.name =  response[0].name ; data.response[0].distance };
+else{ 
+  data.name =  response[0].name 
+ data.distance =  data.response[0].distance }
 }else{
  data.name = 'Không có dữ liệu khu bảo tồn';
 }
 var infor =  document.getElementById("4").innerHTML = `Thông tin khu vực bảo tồn: ${data.name}` 
 });
-elevationService
+
+populationService
 .at([e.lngLat.lng, e.lngLat.lat])
 .run(function (error, response) {
-if (response != undefined) {
-  data.elevation = response.elevation;
-  data.slope = response.slope;
-}
-var infor =  document.getElementById("6").innerHTML = `` 
+  if(response != null){
+    
+    if(response.district != null && response.district.density != null && response.district.density != 0){
+    data.district = response.district.density 
+    }
+    if(response.district != null && response.district.population != null && response.district.population){
+    data.population = response.district.population
+    }
+    if(response.district.density == 0 && response.district.density == 0){
+      data.district = 'Không có dữ liệu';
+      data.population = 'Không có dữ liệu';
+    }
+    
+    }
+var infor =  document.getElementById("5").innerHTML = `-Mật độ dân cư theo huyện: ${data.district} người/km <br> -Dân số theo huyện: ${data.population} người<br>` 
 });
-elevationService
+soilService
 .at([e.lngLat.lng, e.lngLat.lat])
 .run(function (error, response) {
-if (response != undefined) {
-  data.elevation = response.elevation;
-  data.slope = response.slope;
+if(response != undefined){
+  data.soil = response.type
+}else{
+  data.soil = 'Không có dữ liệu';
 }
-var infor =  document.getElementById("7").innerHTML = `` 
+var infor =  document.getElementById("6").innerHTML = `Loại đất: ${data.soil} ` 
 });
-elevationService
-.at([e.lngLat.lng, e.lngLat.lat])
-.run(function (error, response) {
-if (response != undefined) {
-  data.elevation = response.elevation;
-  data.slope = response.slope;
+//error
+// highVoltageService
+// .at([e.lngLat.lng, e.lngLat.lat])
+// .run(function (error, response) {
+//   if (response != null) {
+  
+//   if (response.distance == 0) {
+//   data.voltage = response.voltage 
+//   } else {
+//   data.voltage =  response.voltage 
+//   data.distancevol =  response.distance 
+//   }
+//   } 
+  
+// var infor =  document.getElementById("11").innerHTML = `Thuộc khu vực hành lang an toàn lưới điện: ${data.voltage} <br> Cách khu vực hành lang an toàn lưới điện: ${data.distancevol} ` 
+//});
+distanceService.at([e.lngLat.lng, e.lngLat.lat]).run(function (error, response) {
+  
+  if (response.commune_center) {
+  data.commune_center =  response.commune_center.name 
+   data.commune_center_distance = response.commune_center.distance ;}
+  if (response.district_center) {
+    data.district_center =  response.district_center.name 
+    data.district_center_distance= response.district_center.distance + "m</div>";}
+  if (response.province_center) {
+    data.province = response.province_center.name 
+    data.province_distance =  response.province_center.distance }
+  var infor =  document.getElementById("7").innerHTML = `-Cách trung tâm: ${data.commune_center } ${data.commune_center_distance}m 
+  <br>-Cách trung tâm: ${data.district_center} ${data.district_center_distance}m
+  <br>-Cách trung tâm: ${data.province} ${data.province_distance}m`
+  });
+const { lng, lat } = e.lngLat;
+const marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
+currentMarkers.push(marker);
+//chỉ thêm 5 đối tượng marker
+if (currentMarkers.length > 1) {
+const marker = currentMarkers.shift();
+marker.remove();
 }
-var infor =  document.getElementById("8").innerHTML = `` 
 });
-elevationService
-.at([e.lngLat.lng, e.lngLat.lat])
-.run(function (error, response) {
-if (response != undefined) {
-  data.elevation = response.elevation;
-  data.slope = response.slope;
-}
-var infor =  document.getElementById("9").innerHTML = `` 
-});
-});
+var elm2 = document.getElementById('close');
+var elm = document.querySelector('.card');
+  if (elm) {
+      elm.style.display = 'none';
 
-console.log(document.getElementById("0").innerHTML);
-if(document.getElementById("0").innerHTML===1){
-document.getElementsByClassName("card-body").innerHTML = `Chưa click vị trí nào`
-}
+  }
+  function show() {
+    elm.style.display = 'block';
+    elm2.style.display = 'none';
+  }
 
-
-
-
+ 
