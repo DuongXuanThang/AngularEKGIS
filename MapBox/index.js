@@ -185,69 +185,79 @@ function showLonglat(){
     });
 
 }
-
+function RoadMap(){
+  var routingService = new ekmapplf.service.Routing({
+    apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc',
+    profile: 'foot'
+  });
+  
+  //ví dụ click trên bản đồ để xác định 2 điểm
+  var startPoint, endPoint, markerStart, markerEnd;
+  map.on('click', function (evt) {
+    if (!startPoint) startPoint = evt.lngLat;
+  
+    if (!endPoint) endPoint = evt.lngLat;
+    else {
+        startPoint = endPoint;
+        endPoint = evt.lngLat;
+    }
+    if (!markerStart)
+        markerStart = new mapboxgl.Marker()
+            .setLngLat(startPoint.toArray())
+            .addTo(map);
+    else markerStart.setLngLat(startPoint.toArray());
+  
+    routing();
+  });
+  
+  //gọi dịch vụ tìm đường
+  function routing() {
+    if (startPoint && endPoint && startPoint != endPoint) {
+        if (!markerEnd)
+            markerEnd = new mapboxgl.Marker({ color: 'red' })
+                .setLngLat(endPoint.toArray())
+                .addTo(map);
+        else markerEnd.setLngLat(endPoint.toArray());
+  
+        var coordinates = startPoint.toArray().toString() + ";" + endPoint.toArray().toString();
+        routingService.setCoordinates(coordinates); // thiết lập cặp điểm đầu và cuối
+  
+        //xác định được đường đi
+        var paramRoute = {
+            overview: "full",
+            alternatives: false,
+            steps: false,
+            geometries: "geojson",
+        }
+        routingService.getRoute(paramRoute, function(error, data){
+            var featureData = {
+                'type': 'Feature',
+                'properties': {},
+                'geometry': data.routes[0].geometry
+            };
+            if (map.getSource('route')) {
+                map.getSource('route').setData(featureData);
+            } else {
+                map.addSource('route', {
+                    'type': 'geojson',
+                    'data': featureData
+                });
+                map.addLayer({
+                    'id': 'route',
+                    'type': 'line',
+                    'source': 'route',
+                    'paint': {
+                        'line-color': '#4882c5',
+                        'line-width': 7
+                    }
+                });
+            }
+        })
+    }
+  }
+}
 //khởi tạo
-var direction = new ekmapplf.service.Direction({
-apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc'
-});
- 
-//ví dụ click trên bản đồ để xác định 2 điểm
-var startPoint, endPoint, markerStart, markerEnd;
-map.on('click', function (evt) {
-if (!startPoint) startPoint = evt.lngLat;
- 
-if (!endPoint) endPoint = evt.lngLat;
-else {
-startPoint = endPoint;
-endPoint = evt.lngLat;
-}
-if (!markerStart)
-markerStart = new mapboxgl.Marker()
-.setLngLat(startPoint.toArray())
-.addTo(map);
-else markerStart.setLngLat(startPoint.toArray());
- 
-routing();
-});
- 
-//gọi dịch vụ tìm đường
-function routing() {
-if (startPoint && endPoint && startPoint != endPoint) {
-if (!markerEnd)
-markerEnd = new mapboxgl.Marker({ color: 'red' })
-.setLngLat(endPoint.toArray())
-.addTo(map);
-else markerEnd.setLngLat(endPoint.toArray());
-direction.setOrigin(startPoint.toArray()); //thiết lập điểm đầu
 
-direction.setDestination(endPoint.toArray()); //thiết lập điểm cuối
-//xác định được đường đi
-direction.run(function(error, data){
-var featureData = {
-'type': 'Feature',
-'properties': {},
-'geometry': data.routes[0].geometry
-};
-if (map.getSource('route')) {
-map.getSource('route').setData(featureData);
-} else {
-map.addSource('route', {
-'type': 'geojson',
-'data': featureData
-});
-map.addLayer({
-'id': 'route',
-'type': 'line',
-'source': 'route',
-'paint': {
-'line-color': '#4882c5',
-'line-width': 7
-}
-});
-}
-});
-}
-}
 
 
 map.on('load', () => {
@@ -341,7 +351,7 @@ var mapOSMBrigth = new ekmapplf.VectorBaseMap(
 var mapOSMGray = new ekmapplf.VectorBaseMap('OSM:Gray', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
 var mapOSMDark = new ekmapplf.VectorBaseMap('OSM:Dark', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
 var mapOSMNight = new ekmapplf.VectorBaseMap('OSM:Night', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
-mapOSMNight.addTo(map);
+mapOSMBrigth.addTo(map);
 
 
 var checkBox = document.getElementById("lumlayer");
@@ -504,7 +514,15 @@ for (var i = 0; i < btns.length; i++) {
   });
   
 }
-function inforHieght() {
+var api_key = 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc';
+var landuseService = new ekmapplf.service.LandUse(api_key);
+var landUsePlanService = new ekmapplf.service.LandUsePlan(api_key);
+var protectedAreaService = new ekmapplf.service.ProtectedArea('w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
+var elevationService = new ekmapplf.service.Elevation('w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
+var zoningService = new ekmapplf.service.Zoning(api_key);
+var protectedAreaService = new ekmapplf.service.ProtectedArea(api_key);
+
+var data={};
 var elevationService = new ekmapplf.service.Elevation('w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
 var popupInfo = new mapboxgl.Popup({
 anchor: 'bottom'
@@ -514,18 +532,100 @@ elevationService
 .at([e.lngLat.lng, e.lngLat.lat])
 .run(function (error, response) {
 if (response != undefined) {
-popupInfo
-.setLngLat([e.lngLat.lng, e.lngLat.lat])
-.setHTML(
-'<div>Độ cao: ' +
-response.elevation +
-' m</div><div>Độ dốc: ' +
-response.slope +
-'</div>'
-)
-.addTo(map);
+  data.elevation = response.elevation;
+  data.slope = response.slope;
 }
+var infor =  document.getElementById("0").innerHTML = `Thông tin độ cao:<br> -Độ cao: ${data.elevation}m <br> -Độ dốc: ${data.slope}m` 
+});
+
+landuseService
+.at([e.lngLat.lng, e.lngLat.lat])
+.run(function (error, response) {
+if (response != undefined) {
+ data.ppname = response.ppname;
+}else{
+  data.ppname = ' Không có dữ liệu';
+}
+var infor =  document.getElementById("1").innerHTML = `Thông tin quy hoạch kế hoạch sử dụng đất:<br> Tên loại đất : ${data.ppname}`
+});
+landUsePlanService
+.at([e.lngLat.lng, e.lngLat.lat])
+.run(function (error, response) {
+if(response.landuse_plan != null){
+  
+  data.landuse= response.landuse_plan.planppname
+}else{
+  data.landuse ='Không có dữ liệu'; 
+}
+var infor =  document.getElementById("2").innerHTML = `Thông tin quy hoạch kế hoạch sử dụng đất: Loại đất quy hoạch: ${data.landuse}`
+});
+// error
+// zoningService
+// .at([e.lngLat.lng, e.lngLat.lat])
+// .run(function (error, response) {
+// if(response != undefined){
+
+//   data.planppname= response.planppname
+// }else{
+//   data.planppname ='Không có dữ liệu'; 
+// }
+// var infor =  document.getElementById("3").innerHTML = `Thông tin quy hoạch sử dụng đất xây dựng: </br> Tên loại đất theo bản đồ quy hoạch xây dựng: ${data.planppname}`
+// });
+
+protectedAreaService
+.at([e.lngLat.lng, e.lngLat.lat])
+.run(function (error, response) {
+if (response.length > 0) {
+  if(response[0].distance == 0) {data.name =  response[0].name }
+else{ data.name =  response[0].name ; data.response[0].distance };
+}else{
+ data.name = 'Không có dữ liệu khu bảo tồn';
+}
+var infor =  document.getElementById("4").innerHTML = `Thông tin khu vực bảo tồn: ${data.name}` 
+});
+elevationService
+.at([e.lngLat.lng, e.lngLat.lat])
+.run(function (error, response) {
+if (response != undefined) {
+  data.elevation = response.elevation;
+  data.slope = response.slope;
+}
+var infor =  document.getElementById("6").innerHTML = `` 
+});
+elevationService
+.at([e.lngLat.lng, e.lngLat.lat])
+.run(function (error, response) {
+if (response != undefined) {
+  data.elevation = response.elevation;
+  data.slope = response.slope;
+}
+var infor =  document.getElementById("7").innerHTML = `` 
+});
+elevationService
+.at([e.lngLat.lng, e.lngLat.lat])
+.run(function (error, response) {
+if (response != undefined) {
+  data.elevation = response.elevation;
+  data.slope = response.slope;
+}
+var infor =  document.getElementById("8").innerHTML = `` 
+});
+elevationService
+.at([e.lngLat.lng, e.lngLat.lat])
+.run(function (error, response) {
+if (response != undefined) {
+  data.elevation = response.elevation;
+  data.slope = response.slope;
+}
+var infor =  document.getElementById("9").innerHTML = `` 
 });
 });
 
+console.log(document.getElementById("0").innerHTML);
+if(document.getElementById("0").innerHTML===1){
+document.getElementsByClassName("card-body").innerHTML = `Chưa click vị trí nào`
 }
+
+
+
+
