@@ -1,3 +1,5 @@
 Angular basic: 
 
 file main.ts là file chạy đầu tiên (tổng hợp các module)
+
+Data & Event Binding :
