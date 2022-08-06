@@ -553,7 +553,7 @@ if (response != undefined) {
   data.elevation = response.elevation;
   data.slope = response.slope;
 }
-var infor =  document.getElementById("0").innerHTML = `Thông tin độ cao:<br> -Độ cao: ${data.elevation}m <br> -Độ dốc: ${data.slope}m` 
+var infor =  document.getElementById("0").innerHTML = `Thông tin độ cao:<br> -Độ cao: ${data.elevation}m  Độ dốc: ${data.slope}m` 
 
 });
 
