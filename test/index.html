@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 <html>
+  
 <head>
-<meta charset="utf-8" />
-<title>Thêm Marker khi click chuột</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-<script src="https://api.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.js"></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v1.13.0/mapbox-gl.css" rel="stylesheet" />
-<script src="https://files.ekgis.vn/sdks/v1.0.0/ekmap-platform.min.js"></script>
-<link href="https://files.ekgis.vn/sdks/v1.0.0/ekmap-platform.min.css" rel="stylesheet" />
-<style>
-	body { margin: 0; padding: 0; }
-	#map { position: absolute; top: 0; bottom: 0; width: 100%; background:#ddd;}
-</style>
+    <title>
+        How to toggle a boolean
+        using JavaScript?
+    </title>
 </head>
+  
 <body>
-<div id="map"></div>
- 
-<script>
-var map = new mapboxgl.Map({
-container: 'map',
-center: [105, 17],
-zoom: 4
-});
- 
-/* Bản đồ nền */
-var basemap = new ekmapplf.VectorBaseMap('OSM:Bright', 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc');
-basemap.addTo(map);
- 
-const currentMarkers = [];
-// Lắng nghe sự kiện click
-map.on('click', (e) => {
-const { lng, lat } = e.lngLat;
-const marker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
-currentMarkers.push(marker);
-//chỉ thêm 5 đối tượng marker
-if (currentMarkers.length > 5) {
-const marker = currentMarkers.shift();
-marker.remove();
-}
-});
-</script>
- 
- 
+    <h1 style="color: green">
+        GeeksforGeeks
+    </h1>
+      
+    <b>
+        How to toggle a boolean
+        using JavaScript? 
+    </b>
+      
+    <p>
+        The boolean is toggled
+        whenever the button is
+        pressed.
+    </p>
+      
+    <p>
+        See the console
+        for the output
+    </p>
+  
+    <button onclick="toggle()">
+        Toggle Bool
+    </button>
+      
+    <script>
+        let testBool = true;
+        console.log('Default value of bool is',
+                    testBool);
+      
+        function toggle() {
+            testBool = testBool ? false : true;
+              
+            console.log('Toggled bool is',
+                                testBool);
+        }
+    </script>
 </body>
+  
 </html>

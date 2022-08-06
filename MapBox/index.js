@@ -171,90 +171,102 @@ openTabResult();
 });
 
 }
-
+let onOff = true;
 
 function showLonglat(){
-  map.on('click', (e) => {
-    const { lng, lat } = e.lngLat;
-    new mapboxgl.Popup()
-    .setLngLat(e.lngLat)
-    .setHTML(
-    'Vị trí:<br/> ' + 'Kinh độ:' + lng + '<br/>' + 'Vĩ độ: ' + lat
-    )
-    .addTo(map);
-    });
+
+    map.on('click', (e) => {
+      const { lng, lat } = e.lngLat;
+      new mapboxgl.Popup()
+      .setLngLat(e.lngLat)
+      .setHTML(
+      'Vị trí:<br/> ' + 'Kinh độ:' + lng + '<br/>' + 'Vĩ độ: ' + lat
+      )
+      .addTo(map);
+      });
+  
+  var click  = document.getElementsByClassName('btn-open-leftpanel-infor2').onclick = '';
+  console.log(click);
+ 
+   
 
 }
 function RoadMap(){
-  var routingService = new ekmapplf.service.Routing({
-    apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc',
-    profile: 'foot'
-  });
+ 
+    var routingService = new ekmapplf.service.Routing({
+      apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc',
+      profile: 'foot'
+    });
+    
+    //ví dụ click trên bản đồ để xác định 2 điểm
+    var startPoint, endPoint, markerStart, markerEnd;
+    map.on('click', function (evt) {
+      if (!startPoint) startPoint = evt.lngLat;
+    
+      if (!endPoint) endPoint = evt.lngLat;
+      else {
+          startPoint = endPoint;
+          endPoint = evt.lngLat;
+      }
+      if (!markerStart)
+          markerStart = new mapboxgl.Marker()
+              .setLngLat(startPoint.toArray())
+              .addTo(map);
+      else markerStart.setLngLat(startPoint.toArray());
+    
+      routing();
   
-  //ví dụ click trên bản đồ để xác định 2 điểm
-  var startPoint, endPoint, markerStart, markerEnd;
-  map.on('click', function (evt) {
-    if (!startPoint) startPoint = evt.lngLat;
-  
-    if (!endPoint) endPoint = evt.lngLat;
-    else {
-        startPoint = endPoint;
-        endPoint = evt.lngLat;
+    });
+    
+    //gọi dịch vụ tìm đường
+    function routing() {
+      if (startPoint && endPoint && startPoint != endPoint) {
+          if (!markerEnd)
+              markerEnd = new mapboxgl.Marker({ color: 'red' })
+                  .setLngLat(endPoint.toArray())
+                  .addTo(map);
+          else markerEnd.setLngLat(endPoint.toArray());
+    
+          var coordinates = startPoint.toArray().toString() + ";" + endPoint.toArray().toString();
+          routingService.setCoordinates(coordinates); // thiết lập cặp điểm đầu và cuối
+    
+          //xác định được đường đi
+          var paramRoute = {
+              overview: "full",
+              alternatives: false,
+              steps: false,
+              geometries: "geojson",
+          }
+          routingService.getRoute(paramRoute, function(error, data){
+              var featureData = {
+                  'type': 'Feature',
+                  'properties': {},
+                  'geometry': data.routes[0].geometry
+              };
+              if (map.getSource('route')) {
+                  map.getSource('route').setData(featureData);
+              } else {
+                  map.addSource('route', {
+                      'type': 'geojson',
+                      'data': featureData
+                  });
+                  map.addLayer({
+                      'id': 'route',
+                      'type': 'line',
+                      'source': 'route',
+                      'paint': {
+                          'line-color': '#4882c5',
+                          'line-width': 7
+                      }
+                  });
+              }
+          })
+      }
     }
-    if (!markerStart)
-        markerStart = new mapboxgl.Marker()
-            .setLngLat(startPoint.toArray())
-            .addTo(map);
-    else markerStart.setLngLat(startPoint.toArray());
+  var click2 =  document.getElementsByClassName('btn-open-leftpanel-infor').onclick = '';
+  console.log(click2);
   
-    routing();
-  });
   
-  //gọi dịch vụ tìm đường
-  function routing() {
-    if (startPoint && endPoint && startPoint != endPoint) {
-        if (!markerEnd)
-            markerEnd = new mapboxgl.Marker({ color: 'red' })
-                .setLngLat(endPoint.toArray())
-                .addTo(map);
-        else markerEnd.setLngLat(endPoint.toArray());
-  
-        var coordinates = startPoint.toArray().toString() + ";" + endPoint.toArray().toString();
-        routingService.setCoordinates(coordinates); // thiết lập cặp điểm đầu và cuối
-  
-        //xác định được đường đi
-        var paramRoute = {
-            overview: "full",
-            alternatives: false,
-            steps: false,
-            geometries: "geojson",
-        }
-        routingService.getRoute(paramRoute, function(error, data){
-            var featureData = {
-                'type': 'Feature',
-                'properties': {},
-                'geometry': data.routes[0].geometry
-            };
-            if (map.getSource('route')) {
-                map.getSource('route').setData(featureData);
-            } else {
-                map.addSource('route', {
-                    'type': 'geojson',
-                    'data': featureData
-                });
-                map.addLayer({
-                    'id': 'route',
-                    'type': 'line',
-                    'source': 'route',
-                    'paint': {
-                        'line-color': '#4882c5',
-                        'line-width': 7
-                    }
-                });
-            }
-        })
-    }
-  }
 }
 //khởi tạo
 
