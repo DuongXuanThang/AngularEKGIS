@@ -3,7 +3,7 @@
     <app-header [numberItems]="numberItems"></app-header>
   </header>
 <section class="container">
-  <app-product-list [products] = 'products' (removeProduct) = ></app-product-list>
+  <app-product-list [products] = 'products' (removeProduct) ='removeProduct()' ></app-product-list>
 </section>
   <section class="container">
     <app-promo-code></app-promo-code>

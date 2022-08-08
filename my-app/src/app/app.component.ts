@@ -276,6 +276,9 @@ users  =[
 ]
 tag = ['angular','react','vue'];
 numberItems: number = 3;
+removeProduct(){
+console.log('removeProduct');
+}
 }
 
 
