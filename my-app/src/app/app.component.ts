@@ -6,7 +6,33 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'my-app';
+  products = [
+    {
+      id: '1',
+      name: 'PRODUCT ITEM NUMBER 1',
+      description: 'Description for product item number 1',
+      price : 5.99,
+      image : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACWCAMAAACsAjcrAAAAM1BMVEWo2Gv////U7LW+4pD6/fat2nTq9drv+OSz3X7Z7r/D5Jnf8MjO6az0+u3k89G434fJ56NF8FahAAACGklEQVR4nO3W23KrMAxAUd/A3MP/f+2RZDuEpGn7UjJnZq+ZNC6JWgkkg3MAAAAAAAAAAAAAAAAAAAAAAADAV7oY41DXsuzq8nYcfeOrz3+O+jMheTFaFqsud112+X70nd0H+6avfhf1Zxbvc9jsv3dSxyivSQ5LRrO8lveBMZVCok+9+VXU31n97Kwc/bHeXDf77NzkU3Ru9OldWK/XsRbSt4Mtar0g72eD97fyFl1vp1JaZXBz6Y8kR03p/O6YIL9ufStka3/sOeoDJq2nJpCtJu2vWprY/NrZFXqY5FAKkbehTvhz1AfM2kTedyWP4HypaS65yrVIcrJjGZ/mXkjZLTr3EnW9mw2obTynQsI9JblkMR9N9PBh8H4bpZbNvUZdbUo28d8Vom1l7XWoH469fnXRiE8Xsnur4/tC9BZxnuFzvvmIGj9UyFz30ZaHjmxuy6OQdJ6Q50I2+W19ibrSXO/lelItU93AtpLLeuS+SWul09NHKWQIwRpOb4+vUReS3r/dlzrMu25gi8+d7QFtKhapoj9ufapekXI9dTN4jbpSkicUM+hdMcfREpNGWqdQZ0cMesKHdOqZWojs3MsgD2z9a9SVpvbIp+292yIfx3M7tdmOhvIYUNVCyoNi+epT1JViaLT/49jPdWCG0G9Ly0gGwSoIYXoMrbvYPh9R40MUAAAAAAAAAAAAAAAAAAAAAAAAAAD/u3/2FgtLph7PKgAAAABJRU5ErkJggg==',
+      quantity : 2,
+    },
+    {
+      id : '2',
+      name: 'PRODUCT ITEM NUMBER 2',
+      description: 'Description for product item number 2',
+      price : 9.99,
+      image : 'https://camo.githubusercontent.com/495be94b69d4e617adfeeb77fec4be5221dafed4cf784898cedea27014b7a615/687474703a2f2f686f6c6465722e6e696e6a612f323030783135302e737667',
+      quantity : 1,
+    },
+    {
+      id : '3',
+      name: 'PRODUCT ITEM NUMBER 3',
+      description: 'Description for product item number 3',
+      price : 1.99,
+      image : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAACWCAMAAACsAjcrAAAAM1BMVEWo2Gv////U7LW+4pD6/fat2nTq9drv+OSz3X7Z7r/D5Jnf8MjO6az0+u3k89G434fJ56NF8FahAAACGklEQVR4nO3W23KrMAxAUd/A3MP/f+2RZDuEpGn7UjJnZq+ZNC6JWgkkg3MAAAAAAAAAAAAAAAAAAAAAAADAV7oY41DXsuzq8nYcfeOrz3+O+jMheTFaFqsud112+X70nd0H+6avfhf1Zxbvc9jsv3dSxyivSQ5LRrO8lveBMZVCok+9+VXU31n97Kwc/bHeXDf77NzkU3Ru9OldWK/XsRbSt4Mtar0g72eD97fyFl1vp1JaZXBz6Y8kR03p/O6YIL9ufStka3/sOeoDJq2nJpCtJu2vWprY/NrZFXqY5FAKkbehTvhz1AfM2kTedyWP4HypaS65yrVIcrJjGZ/mXkjZLTr3EnW9mw2obTynQsI9JblkMR9N9PBh8H4bpZbNvUZdbUo28d8Vom1l7XWoH469fnXRiE8Xsnur4/tC9BZxnuFzvvmIGj9UyFz30ZaHjmxuy6OQdJ6Q50I2+W19ibrSXO/lelItU93AtpLLeuS+SWul09NHKWQIwRpOb4+vUReS3r/dlzrMu25gi8+d7QFtKhapoj9ufapekXI9dTN4jbpSkicUM+hdMcfREpNGWqdQZ0cMesKHdOqZWojs3MsgD2z9a9SVpvbIp+292yIfx3M7tdmOhvIYUNVCyoNi+epT1JViaLT/49jPdWCG0G9Ly0gGwSoIYXoMrbvYPh9R40MUAAAAAAAAAAAAAAAAAAAAAAAAAAD/u3/2FgtLph7PKgAAAABJRU5ErkJggg==',
+      quantity : 4,
+    }
+    ]
+
   inputType = 'text';
   user = {
     name: 'John',
@@ -248,7 +274,8 @@ users  =[
     }
   }
 ]
-tag = ['angular','react','vue']
+tag = ['angular','react','vue'];
+numberItems: number = 3;
 }
 
 

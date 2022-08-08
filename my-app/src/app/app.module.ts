@@ -4,12 +4,22 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HelloworldComponent } from './helloworld/helloworld.component';
+import { HeaderComponent } from './header/header.component';
+
+import { ProductListComponent } from './product-list/product-list.component';
+import { ProductSumComponent } from './product-sum/product-sum.component';
+import { PromoCodeComponent } from './promo-code/promo-code.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    HelloworldComponent
+    HeaderComponent,
+
+    ProductListComponent,
+    ProductSumComponent,
+    PromoCodeComponent,
+
   ],
   imports: [
     BrowserModule,
