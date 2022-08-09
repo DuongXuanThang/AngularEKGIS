@@ -6,6 +6,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  promoCodes = [
+    {
+      code: 'AUTUMN',
+      discountPercent: 10
+    },
+    {
+      code: 'WINTER',
+      discountPercent: 20
+    }
+  ];
   products = [
     {
       id: '1',
@@ -275,9 +285,56 @@ users  =[
   }
 ]
 tag = ['angular','react','vue'];
-numberItems: number = 3;
-removeProduct(){
-console.log('removeProduct');
+numberItems: number = 0;
+subTotal: number = 0;
+discountPercent: number = 0;
+discount: number = 0;
+taxPercent: number = 10;
+tax: number = 0;
+removeProduct(param:string){
+alert('removeProduct' + param);
+const index = this.products.findIndex((pro : any) => pro.id === param); // tim vi tri cua id trong mang
+if(index !== -1){ // neu tim thay
+this.products.splice(index, 1);
+}
+}
+
+
+handleUpdateQuantity(p : { id:String, quantity:number}){
+
+alert('handleUpdateQuantity' + p.quantity + ' ' + p.id);
+const product = this.products.find(product => product.id === p.id);
+if (product) {
+  product.quantity = p.quantity || 0;
+}
+}
+
+ngDoCheck() {
+  this.numberItems = 0;
+  this.subTotal = 0;
+
+  for (const product of this.products) {
+    this.numberItems += product.quantity;
+    this.subTotal += product.price * product.quantity;
+  }
+
+
+
+}
+handleApplyPromoCode(code: string) {
+  const promoCode = this.promoCodes.find(
+    promoCode => promoCode.code === code
+  );
+  this.discountPercent = promoCode ? promoCode.discountPercent : 0;
+  this.discount = (this.subTotal * this.discountPercent) / 100;
+
+  if (this.discount > 0) {
+    alert(`The promotional code was applied.`);
+  } else {
+    alert(
+      'Sorry, the promotional code you entered is not valid! Try code "AUTUMN" (discount 10% to all cart items) or "WINTER" (discount 20% to all cart items).'
+    );
+  }
 }
 }
 

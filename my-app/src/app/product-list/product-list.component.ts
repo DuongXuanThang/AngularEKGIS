@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,Output ,EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-product-list',
@@ -7,20 +7,34 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ProductListComponent implements OnInit {
 @Input() products:any;
-
+@Output() onRemoveProduct = new EventEmitter();
+@Output() onUpdateQuantity = new EventEmitter();
 
   constructor() { }
 
   ngOnInit(): void {
   }
- removeProduct(param:String): void{
+  removeProduct(param:String): void{
+    this.onRemoveProduct.emit(param);
 
-const index = this.products.findIndex((pro : any) => pro.id === param); // tim vi tri cua id trong mang
-if(index !== -1){ // neu tim thay
-this.products.splice(index, 1);
-}
  }
-onChangeQuantity(elememt :any){
-console.log(elememt.value);
+
+
+ inputQuantity(id: String, inputElement: HTMLInputElement) :void{
+
+  const value = inputElement.value;
+  const intValue = parseInt(value);
+
+  if (intValue < 1) {
+    inputElement.value = -intValue + ''; // khong co so am
+  } else if (value.length > 2) {
+    inputElement.value = value.slice(0, 2); // chi tu 1 ->99 so luong
+  }
+console.log(id);
+  this.onUpdateQuantity.emit({ id, quantity: parseInt(inputElement.value) || '' });
 }
+
+// onChangeQuantity(elememt :any){
+// console.log(elememt.value);
+// }
 }

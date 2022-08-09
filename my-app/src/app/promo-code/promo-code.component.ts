@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Output,EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-promo-code',
@@ -11,5 +11,15 @@ export class PromoCodeComponent implements OnInit {
 
   ngOnInit(): void {
   }
+  promoCode: any;
 
+  @Output() onApplyPromoCode = new EventEmitter();
+
+  applyPromoCode() {
+    const code = this.promoCode;
+
+    if (code && code.trim() !== '') {
+      this.onApplyPromoCode.emit(code);
+    }
+  }
 }

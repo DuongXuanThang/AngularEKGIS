@@ -3,10 +3,14 @@
     <app-header [numberItems]="numberItems"></app-header>
   </header>
 <section class="container">
-  <app-product-list [products] = 'products' (removeProduct) ='removeProduct()' ></app-product-list>
+  <app-product-list [products] = 'products'  (onUpdateQuantity)='handleUpdateQuantity($event)' (onRemoveProduct) = 'removeProduct($event)' ></app-product-list>
+  <div class="empty-product" *ngIf="products.length === 0" >
+    <h3>There are no products in your cart.</h3>
+    <button>Shopping now</button>
+  </div>
 </section>
   <section class="container">
-    <app-promo-code></app-promo-code>
-    <app-product-sum></app-product-sum>
+    <app-promo-code (onApplyPromoCode)="handleApplyPromoCode($event)" ></app-promo-code>
+    <app-product-sum [subTotal] = 'subTotal' [tax]='tax' [discount]="discount"></app-product-sum>
   </section>
 </main>

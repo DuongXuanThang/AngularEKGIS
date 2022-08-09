@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 
 @Component({
   selector: 'app-product-sum',
@@ -6,7 +6,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./product-sum.component.css']
 })
 export class ProductSumComponent implements OnInit {
-
+@Input() subTotal: any;
+@Input() tax: any;
+@Input() discount: any;
   constructor() { }
 
   ngOnInit(): void {
