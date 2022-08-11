@@ -3,3 +3,14 @@ Angular basic:
 file main.ts là file chạy đầu tiên (tổng hợp các module)
 
 Data & Event Binding :
+
+PROPERTY BINDING:
+EVENT BINDING:
+TWO-WAY BINDING:
+
+
+LIFECYCLE HOOK: 
+1.ngOnChanges():- Thự thi khi Angular thiết lập các thuộc tính đầu vào ràng buộc dữ liệu.
+ -Được gọi trước ngOnInit() và bất cứ khi nào một hoặc nhiều thuộc tính đầu vào ràng buộc dữ liệu thay đổi.
+ 
+ 
