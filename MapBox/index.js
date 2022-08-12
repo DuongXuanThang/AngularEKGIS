@@ -175,45 +175,43 @@ let onOff = true;
 
 
 function showLonglat(id){
-alert(id)
-if(id==100){
-  var handler = map.on('click', (e) => {
-    const { lng, lat } = e.lngLat;
+
+   map.on('click', (e) => {
+switch (id) {
+case '100':
+  const { lng, lat } = e.lngLat;
     new mapboxgl.Popup()
     .setLngLat(e.lngLat)
     .setHTML(
     'Vị trí:<br/> ' + 'Kinh độ:' + lng + '<br/>' + 'Vĩ độ: ' + lat
     )
     .addTo(map);
-  
-    });
-  
-}
-if(id==101) {
- delete handler;
+    map.off('')
+    break;
+case '101':
   
   console.log('hello');
+  break;
+case '102':
+    console.log('hello2');
+    
+    break;
 }
-if(id==102) {
-  if(isFirst == true){
-    var measure = new ekmapplf.control.Measure();
-    map.addControl(measure, 'top-right');
-    isFirst = false;
-    }
- 
- 
-  }
 
+    
+   });
+ 
+  
 }
+
+
+
 function RoadMap(){
-  document.getElementById('100').removeAttribute("onclick");
- console.log(document.getElementById('100'));
- map.off('click', (e) => {
  
- }
+ 
 
 
-  );
+
     var routingService = new ekmapplf.service.Routing({
       apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc',
       profile: 'foot'
@@ -236,7 +234,7 @@ function RoadMap(){
       else markerStart.setLngLat(startPoint.toArray());
     
       routing();
-  
+      
     });
     
     //gọi dịch vụ tìm đường
@@ -283,6 +281,9 @@ function RoadMap(){
               }
           })
       }
+      map.off('click', function (evt) {
+        console.log('object');
+      });
     }
   
   
