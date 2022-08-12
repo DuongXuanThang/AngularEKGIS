@@ -173,26 +173,47 @@ openTabResult();
 }
 let onOff = true;
 
-function showLonglat(){
 
-    map.on('click', (e) => {
-      const { lng, lat } = e.lngLat;
-      new mapboxgl.Popup()
-      .setLngLat(e.lngLat)
-      .setHTML(
-      'Vị trí:<br/> ' + 'Kinh độ:' + lng + '<br/>' + 'Vĩ độ: ' + lat
-      )
-      .addTo(map);
-      });
+function showLonglat(id){
+alert(id)
+if(id==100){
+  var handler = map.on('click', (e) => {
+    const { lng, lat } = e.lngLat;
+    new mapboxgl.Popup()
+    .setLngLat(e.lngLat)
+    .setHTML(
+    'Vị trí:<br/> ' + 'Kinh độ:' + lng + '<br/>' + 'Vĩ độ: ' + lat
+    )
+    .addTo(map);
   
-  var click  = document.getElementsByClassName('btn-open-leftpanel-infor2').onclick = '';
-  console.log(click);
+    });
+  
+}
+if(id==101) {
+ delete handler;
+  
+  console.log('hello');
+}
+if(id==102) {
+  if(isFirst == true){
+    var measure = new ekmapplf.control.Measure();
+    map.addControl(measure, 'top-right');
+    isFirst = false;
+    }
  
-   
+ 
+  }
 
 }
 function RoadMap(){
+  document.getElementById('100').removeAttribute("onclick");
+ console.log(document.getElementById('100'));
+ map.off('click', (e) => {
  
+ }
+
+
+  );
     var routingService = new ekmapplf.service.Routing({
       apiKey: 'w1Dlh2wRon7mE6sL196TgvLS45fw02uon74pJ0rc',
       profile: 'foot'
@@ -263,8 +284,7 @@ function RoadMap(){
           })
       }
     }
-  var click2 =  document.getElementsByClassName('btn-open-leftpanel-infor').onclick = '';
-  console.log(click2);
+  
   
   
 }
